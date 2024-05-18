@@ -82,6 +82,7 @@ Manage all portfolios created using API in your managing account
 
 ### Portfolios Settings
 Latest settings for all portfolios
+
 endPoint `portfolios/all`
 ```
 body: {}
@@ -95,6 +96,7 @@ response: {
 
 ### Portfolios Trades
 Latest trades for all portfolios
+
 endPoint `portfolios/trades`
 ```
 body: {}
@@ -112,6 +114,7 @@ error: `no_trades`
 
 ### Portfolio New
 Create a new portfolio and get portfolio ID
+
 endPoint `portfolios/add`
 ```
 body: {}
@@ -123,6 +126,7 @@ response: {
 
 ### Portfolio Delete
 Delete an existing portfolio using portfolio ID
+
 endPoint `portfolios/delete`
 ```
 body: {
@@ -136,6 +140,7 @@ response: {
 
 ### Portfolio Update
 Update an existing portfolio using portfolio ID
+
 endPoint `portfolios/update`
 ```
 body: {
@@ -150,6 +155,7 @@ response: {
 
 ### Portfolio Exchange APIs
 Add or update exchange API keys for a given exchange
+
 endPoint `portfolios/api`
 ```
 body: {
@@ -170,6 +176,7 @@ error: `api_renew` | `api_invalid`
 
 ### Coin Sets
 All coin sets created
+
 endPoint `coinsets/all`
 ```
 body: {}
@@ -183,6 +190,7 @@ response: {
 
 ### Coin Set New
 Create a new coin set and get coin set ID
+
 endPoint `coinsets/add`
 ```
 body: {}
@@ -194,6 +202,7 @@ response: {
 
 ### Coin Set Delete
 Delete an existing coin set using coin set ID
+
 endPoint `coinsets/delete`
 ```
 body: {
@@ -207,6 +216,7 @@ response: {
 
 ### Coin Set Update
 Update an existing coin set using coin set ID
+
 endPoint `coinsets/update`
 ```
 body: {
