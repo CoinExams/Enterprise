@@ -4,44 +4,53 @@
 CoinExams API uses HMAC authentcation to protect the data in transit. Thus, it is required to include the API key in request body and sign all requests with HMAC key. All requests are using POST method for ease, reliablity, and security.
 ### Base URL
 ```
-cosnt baseURL = https://api.coinexams.com/v1/
+cosnt baseURL = `https://api.coinexams.com/v1/`;
 ```
 ### Request Signed
 ```
 import { createHmac } from 'node:crypto';
 const
-    endPoint = `End Point`,
-    hmacKey = `API HMAC Key`,
-    bodyParm = {
-        key: `API Key`,
-        // ...body parameters
-    },
-    body = JSON.stringify(bodyParm)
-    coinexams_sig = createHmac(`sha256`, hmacKey)
-        .update(body)
-        .digest(`hex`),
-    headers = {
-        coinexams_sig,
-        "Content-Type": "application/json"
-    },
-    response = await fetch(baseURL + endPoint, {
-				method: "POST",
-				mode: "cors",
-				headers,
-				body
-			})
-				.then(res => res.json())
-				.then(async r => {
-
-                    // request error
-					if (r?.e) console.log(r.e);
-
-                    // request sucess
-					else return await r;
-				})
-				.catch(() => {
-					// request failed
-				});
+ hmacKey: string = `API HMAC Key`,
+ key: string = `API Key`,
+ requestFunction = async (
+	endPoint: string, // e.g. `portfolios/all`
+	reqParm: any // request parameters
+) => {
+	const
+	    bodyParm = {
+	        key,
+	        ...reqParm
+	    },
+	    body = JSON.stringify(bodyParm)
+	    coinexams_sig = createHmac(`sha256`, hmacKey)
+	        .update(body)
+	        .digest(`hex`),
+	    headers = {
+	        coinexams_sig,
+	        "Content-Type": "application/json"
+	    };
+	
+	return await fetch(
+		baseURL + endPoint,
+		{
+			method: "POST",
+			mode: "cors",
+			headers,
+			body
+		})
+		.then(res => res.json())
+		.then(async r => {
+		
+			// request error
+			if (r?.e) console.log(r.e);
+		
+			// request success
+			else return await r;
+		})
+		.catch(() => {
+			// request failed
+		});
+};
 ```
 
 ## Types
