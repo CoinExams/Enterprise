@@ -79,33 +79,95 @@ interface portSettings {
 ```
 
 ## Endpoints
+Manage all portfolios created using API in your managing account
 
-### Get All Portfolios
-baseURL `portfolios/all`
+### Portfolios Settings
+Latest settings for all portfolios
+endPoint `portfolios/all`
 ```
 body: {}
 
 response: {
-    users: {
-        [portId: string]: {
-            settings: JSON.stringify(portSettings), // Portfolio Settings Stringified
-            updated: number, // last time updated
-            exchanges: { // exchanges object
-                binance: { // exchange holdings
-                    [sy: string]: number // coin amount
-                }
-            }
-        }
-    }
+	users: {
+		[portId: string]: JSON.stringify(portSettings) // Portfolio Settings Stringified
+	}
+}
+```
+
+### Portfolios Trades
+Latest trades for all portfolios
+endPoint `portfolios/trades`
+```
+body: {}
+
+response: {
+	exchanges: {
+		[portId: string]: {
+			/** Binance */
+			bin: {
+			    /** holdings on exchange */
+                            holdings: JSON.stringify({ [sy: string]: number }),
+			    /** positive numbers for buy, negative for sell */
+  			    trades?: JSON.stringify({ [sy: string]: number }),
+			    /** Time traded last ms */
+                            lastTraded?: number,
+			    /** Next trade chech ms */
+                            nextCheck: number,
+                        }
+		}
+	}
+}
+
+error: `no_trades`
+```
+
+### Portfolio New
+Create a new portfolio and get portfolio ID
+endPoint `portfolios/add`
+```
+body: {}
+
+response: {
+    portId: string, // Portfolio Id String
+}
+```
+
+### Portfolio Delete
+Delete an existing portfolio using portfolio ID
+endPoint `portfolios/delete`
+```
+body: {
+    portId: string, // Portfolio Id String
+}
+
+response: {
+    portId: string, // Portfolio Id String
 }
 ```
 
 ### Portfolio Update
-baseURL `portfolios/update`
+Update an existing portfolio using portfolio ID
+endPoint `portfolios/update`
 ```
 body: {
-    portId: portId, // Portfolio Id String
+    portId: string, // Portfolio Id String
     w: JSON.stringify(portSettings), // Portfolio Settings Stringified
+}
+
+response: {
+    ok: 1
+}
+```
+
+### Portfolio Exchange APIs
+Add or update exchange API keys for a given exchange
+endPoint `portfolios/api`
+```
+body: {
+    portId: string, // Portfolio Id String
+    exch: `bin`, // exchange name, currently limited to `bin` (Binance)
+    k1: Exchange_API_Key,
+    k2: Exchange_API_Secret,
 }
 
 response: {
