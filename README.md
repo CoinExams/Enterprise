@@ -57,24 +57,19 @@ const
 ### Portfolio Settings
 ```
 interface portSettings {
-
-    /** trade on (1) / off (2) */
-    rb: 1 | 0,
-
-    /** coins included list */
-    lst: string[],
-
-    /** wallets holdings outside exchange */
-    wal?: {
-        /** example, BTC:0.01 */
-        [sy: string]: number
-    },
-
-    /** manual distribution percentage */
-    man?: {
-        /** example for 50%, BTC:50 */
-        [sy: string]: number
-    }
+	rb: 1 | 0, // trade on (1) / off (2)
+	lst: string[], // coins included list
+	wal?: { [sy: string]: number }, // wallets holdings outside exchange, example, BTC:0.01 
+	man?: { [sy: string]: number } // manual distribution percentage, example for 50%, BTC:50
+}
+```
+### Exchange Data
+```
+interface exchData {
+	holdings: JSON.stringify({ [sy: string]: number }), // holdings on exchange
+	trades?: JSON.stringify({ [sy: string]: number }), // positive numbers for buy, negative for sell
+	lastTraded?: number, // Time traded last ms
+	nextCheck: number // Next trade check ms
 }
 ```
 
@@ -89,7 +84,7 @@ body: {}
 
 response: {
 	users: {
-		[portId: string]: JSON.stringify(portSettings) // Portfolio Settings Stringified
+		[portId: string]: JSON.stringify(portSettings)
 	}
 }
 ```
@@ -103,17 +98,7 @@ body: {}
 response: {
 	exchanges: {
 		[portId: string]: {
-			/** Binance */
-			bin: {
-			    /** holdings on exchange */
-                            holdings: JSON.stringify({ [sy: string]: number }),
-			    /** positive numbers for buy, negative for sell */
-  			    trades?: JSON.stringify({ [sy: string]: number }),
-			    /** Time traded last ms */
-                            lastTraded?: number,
-			    /** Next trade chech ms */
-                            nextCheck: number,
-                        }
+			bin: exchData
 		}
 	}
 }
@@ -128,7 +113,7 @@ endPoint `portfolios/add`
 body: {}
 
 response: {
-    portId: string, // Portfolio Id String
+	portId: string, // Portfolio Id String
 }
 ```
 
@@ -137,11 +122,11 @@ Delete an existing portfolio using portfolio ID
 endPoint `portfolios/delete`
 ```
 body: {
-    portId: string, // Portfolio Id String
+	portId: string, // Portfolio Id String
 }
 
 response: {
-    portId: string, // Portfolio Id String
+	portId: string, // Portfolio Id String
 }
 ```
 
@@ -150,12 +135,12 @@ Update an existing portfolio using portfolio ID
 endPoint `portfolios/update`
 ```
 body: {
-    portId: string, // Portfolio Id String
-    w: JSON.stringify(portSettings), // Portfolio Settings Stringified
+	portId: string, // Portfolio Id String
+	settings: JSON.stringify(portSettings), // Portfolio Settings Stringified
 }
 
 response: {
-    ok: 1
+	portId: string, // Portfolio Id String
 }
 ```
 
@@ -164,13 +149,68 @@ Add or update exchange API keys for a given exchange
 endPoint `portfolios/api`
 ```
 body: {
-    portId: string, // Portfolio Id String
-    exch: `bin`, // exchange name, currently limited to `bin` (Binance)
-    k1: Exchange_API_Key,
-    k2: Exchange_API_Secret,
+	portId: string, // Portfolio Id String
+	exch: `bin`, // exchange name, currently limited to `bin` (Binance)
+	k1: Exchange_API_Key,
+	k2: Exchange_API_Secret,
 }
 
 response: {
-    ok: 1
+	portId: string, // Portfolio Id String
+	holdings: { [sy: string]: number } // holdings on exchange
+}
+
+error: `api_renew` | `api_invalid`
+```
+
+
+### Coin Sets
+All coin sets created
+endPoint `coinsets/all`
+```
+body: {}
+
+response: {
+	coinSets: {
+		[coinSetId: string]: string[] // [`BTC`,`ETH`]
+	}
+}
+```
+
+### Coin Set New
+Create a new coin set and get coin set ID
+endPoint `coinsets/add`
+```
+body: {}
+
+response: {
+	coinSetId: string, // Coin Set Id String
+}
+```
+
+### Coin Set Delete
+Delete an existing coin set using coin set ID
+endPoint `coinsets/delete`
+```
+body: {
+	coinSetId: string, // Coin Set Id String
+}
+
+response: {
+	coinSetId: string, // Coin Set Id String
+}
+```
+
+### Coin Set Update
+Update an existing coin set using coin set ID
+endPoint `coinsets/update`
+```
+body: {
+	coinSetId: string, // Coin Set Id String
+	coinSet: string[] // [`BTC`,`ETH`]
+}
+
+response: {
+	coinSetId: string, // Coin Set Id String
 }
 ```
