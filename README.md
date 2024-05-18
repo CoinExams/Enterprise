@@ -1,2 +1,1 @@
-# enterprise_api
-CoinExams Enterprise API
+# CoinExams Enterprise API
