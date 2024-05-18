@@ -10,47 +10,47 @@ cosnt baseURL = `https://api.coinexams.com/v1/`;
 ```
 import { createHmac } from 'node:crypto';
 const
- hmacKey: string = `API HMAC Key`,
- key: string = `API Key`,
- requestFunction = async (
-	endPoint: string, // e.g. `portfolios/all`
-	reqParm: any // request parameters
-) => {
-	const
-	    bodyParm = {
-	        key,
-	        ...reqParm
-	    },
-	    body = JSON.stringify(bodyParm)
-	    coinexams_sig = createHmac(`sha256`, hmacKey)
-	        .update(body)
-	        .digest(`hex`),
-	    headers = {
-	        coinexams_sig,
-	        "Content-Type": "application/json"
-	    };
-	
-	return await fetch(
-		baseURL + endPoint,
-		{
-			method: "POST",
-			mode: "cors",
-			headers,
-			body
-		})
-		.then(res => res.json())
-		.then(async r => {
+	key: string = `API Key`,
+	hmacKey: string = `API HMAC Key`,
+	requestFunction = async (
+		endPoint: string, // e.g. `portfolios/all`
+		reqParm: any // request parameters
+	) => {
+		const
+		    bodyParm = {
+			key,
+			...reqParm
+		    },
+		    body = JSON.stringify(bodyParm)
+		    coinexams_sig = createHmac(`sha256`, hmacKey)
+			.update(body)
+			.digest(`hex`),
+		    headers = {
+			coinexams_sig,
+			"Content-Type": "application/json"
+		    };
 		
-			// request error
-			if (r?.e) console.log(r.e);
-		
-			// request success
-			else return await r;
-		})
-		.catch(() => {
-			// request failed
-		});
-};
+		return await fetch(
+			baseURL + endPoint,
+			{
+				method: "POST",
+				mode: "cors",
+				headers,
+				body
+			})
+			.then(res => res.json())
+			.then(async r => {
+			
+				// request error
+				if (r?.e) console.log(r.e);
+			
+				// request success
+				else return await r;
+			})
+			.catch(() => {
+				// request failed
+			});
+	};
 ```
 
 ## Types
@@ -150,7 +150,7 @@ endPoint `portfolios/api`
 ```
 body: {
 	portId: string, // Portfolio Id String
-	exch: `bin`, // exchange name, currently limited to `bin` (Binance)
+	exchId: `bin`, // exchange Id, currently limited to `bin` (Binance)
 	k1: Exchange_API_Key,
 	k2: Exchange_API_Secret,
 }
