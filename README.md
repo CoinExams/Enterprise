@@ -53,21 +53,25 @@ const
 	};
 ```
 
-## Types
+## Data Types
 ### Portfolio Settings
 ```
 interface portSettings {
 	rb: 1 | 0, // trade on (1) / off (2)
 	lst: string[], // coins included list
-	wal?: { [sy: string]: number }, // wallets holdings outside exchange, example, BTC:0.01 
-	man?: { [sy: string]: number } // manual distribution percentage, example for 50%, BTC:50
+	wal?: // wallets holdings outside exchange
+		{ [sy: string]: number }, // example, BTC:0.01 
+	man?: // manual distribution percentage
+		{ [sy: string]: number } // example for 50%, BTC:50
 }
 ```
 ### Exchange Data
 ```
 interface exchData {
-	holdings: JSON.stringify({ [sy: string]: number }), // holdings on exchange
-	trades?: JSON.stringify({ [sy: string]: number }), // positive numbers for buy, negative for sell
+	holdings: // holdings on exchange
+		JSON.stringify({ [sy: string]: number }), 
+	trades?: // positive numbers for buy, negative for sell
+		JSON.stringify({ [sy: string]: number }), 
 	lastTraded?: number, // Time traded last ms
 	nextCheck: number // Next trade check ms
 }
