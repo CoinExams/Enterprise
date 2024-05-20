@@ -116,6 +116,7 @@ body: {}
 
 response: {
 	portId: string, // Portfolio Id String
+	settings?: JSON.stringify(portSettings), // Portfolio Settings Stringified
 }
 ```
 
