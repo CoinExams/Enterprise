@@ -8,49 +8,44 @@ cosnt baseURL = `https://api.coinexams.com/v1/`;
 ```
 ### Request Signed
 ```
-import { createHmac } from 'node:crypto';
+import { createHmac } from "node:crypto";
+import fetch from "node-fetch";
+
 const
-	key: string = `API Key`,
-	hmacKey: string = `API HMAC Key`,
-	requestFunction = async (
-		endPoint: string, // e.g. `portfolios/all`
-		reqParm: any // request parameters
-	) => {
-		const
-		    bodyParm = {
-			key,
-			...reqParm
-		    },
-		    body = JSON.stringify(bodyParm)
-		    coinexams_sig = createHmac(`sha256`, hmacKey)
-			.update(body)
-			.digest(`hex`),
-		    headers = {
-			coinexams_sig,
-			"Content-Type": "application/json"
-		    };
-		
-		return await fetch(
-			baseURL + endPoint,
-			{
-				method: "POST",
-				mode: "cors",
-				headers,
-				body
-			})
-			.then(res => res.json())
-			.then(async r => {
-			
-				// request error
-				if (r?.e) console.log(r.e);
-			
-				// request success
-				else return await r;
-			})
-			.catch(() => {
-				// request failed
-			});
-	};
+    baseURL: string = `https://api.coinexams.com/v1/`,
+    key: string = `API Key`,
+    hmacKey: string = `API HMAC Key`,
+    requestFunction = async (
+        endPoint: string,
+        reqParm?: any
+    ) => {
+        const
+            body = {
+                key,
+                ...reqParm || {}
+            },
+            signature = createHmac(`sha256`, hmacKey)
+                .update(JSON.stringify(body))
+                .digest(`hex`),
+            res = await fetch(
+                baseURL + endPoint,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        ...body,
+                        signature
+                    })
+                }
+            ),
+            result: any = await res.json();
+
+        // request error
+        if (result?.e) console.log(`error`, result.e);
+
+        // request success
+        else return await result;
+    };
 ```
 
 ## Data Types
