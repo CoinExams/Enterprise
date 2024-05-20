@@ -112,11 +112,12 @@ Create a new portfolio and get portfolio ID
 
 endPoint `portfolios/add`
 ```
-body: {}
+body: {
+	settings?: JSON.stringify(portSettings), // Portfolio Settings Stringified
+}
 
 response: {
 	portId: string, // Portfolio Id String
-	settings?: JSON.stringify(portSettings), // Portfolio Settings Stringified
 }
 ```
 
