@@ -204,7 +204,9 @@ Get a list of all possible token symbols
 
 endPoint `coinsets/options`
 ```
-body: {}
+body: {
+	exchId: `bin`
+}
 
 response: {
 	options: string[], // [`BTC`,`ETH`]
