@@ -190,10 +190,24 @@ Create a new coin set and get coin set ID
 
 endPoint `coinsets/add`
 ```
-body: {}
+body: {
+	coinSet: string[] // [`BTC`,`ETH`]
+}
 
 response: {
 	coinSetId: string, // Coin Set Id String
+}
+```
+
+### Coin Set Options
+Get a list of all possible token symbols
+
+endPoint `coinsets/options`
+```
+body: {}
+
+response: {
+	options: string[], // [`BTC`,`ETH`]
 }
 ```
 
