@@ -53,16 +53,19 @@ const
 ```
 interface portSettings {
 	/** 1 trade on | 0 trade off */
-	rb: 1 | 0,
+	rb?: 1 | 0,
 
 	/** coins included list */
-	lst: string[],
+	lst?: string[],
 
 	/** wallets holdings outside exchange, example { BTC: 0.01 } */
 	wal?: { [sy: string]: number },
 
 	/** manual distribution percentage, example for 50% { BTC: 50 } */
 	man?: { [sy: string]: number },
+
+	/** coinset Id */
+	coinSetId?: string,
 }
 ```
 ### Exchange Data
