@@ -133,22 +133,6 @@ response: {
 }
 ```
 
-### Portfolio Delete
-Delete an existing portfolio using portfolio ID
-
-endPoint `portfolios/delete`
-```
-body: {
-	/** Portfolio Id String */
-	portId: string,
-}
-
-response: {
-	/** Portfolio Id String */
-	portId: string,
-}
-```
-
 ### Portfolio Update
 Update an existing portfolio using portfolio ID
 
@@ -191,6 +175,21 @@ response: {
 error: { e: `api_renew` | `api_invalid` }
 ```
 
+### Portfolio Delete
+Delete an existing portfolio using portfolio ID
+
+endPoint `portfolios/delete`
+```
+body: {
+	/** Portfolio Id String */
+	portId: string,
+}
+
+response: {
+	/** Portfolio Id String */
+	portId: string,
+}
+```
 
 ### Coin Sets
 All coin sets created
