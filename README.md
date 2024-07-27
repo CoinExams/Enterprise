@@ -74,7 +74,7 @@ interface exchData {
 	/** Next trade check ms */
 	nextCheck: number,
 	/** exchange Id */
-    exchId?: `bin`,
+   	exchId?: `bin`,
 }
 ```
 
