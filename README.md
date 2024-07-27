@@ -114,7 +114,7 @@ response: {
 	}
 }
 
-error: `no_trades`
+error: { e: `no_trades` }
 ```
 
 ### Portfolio New
@@ -188,7 +188,7 @@ response: {
 	holdings: { [sy: string]: number }
 }
 
-error: `api_renew` | `api_invalid`
+error: { e: `api_renew` | `api_invalid` }
 ```
 
 
@@ -203,21 +203,6 @@ response: {
 	coinSets: {
 		[coinSetId: string]: string[] // example [`BTC`,`ETH`]
 	}
-}
-```
-
-### Coin Set New
-Create a new coin set and get coin set ID
-
-endPoint `coinsets/add`
-```
-body: {
-	coinSet: string[] // example [`BTC`,`ETH`]
-}
-
-response: {
-	/** Coin Set Id String */
-	coinSetId: string,
 }
 ```
 
@@ -236,20 +221,21 @@ response: {
 }
 ```
 
-### Coin Set Delete
-Delete an existing coin set using coin set ID
+### Coin Set New
+Create a new coin set and get coin set ID
 
-endPoint `coinsets/delete`
+endPoint `coinsets/add`
 ```
 body: {
-	/** Coin Set Id String */
-	coinSetId: string,
+	coinSet: string[] // example [`BTC`,`ETH`], minimum two symbols
 }
 
 response: {
 	/** Coin Set Id String */
 	coinSetId: string,
 }
+
+error: { e: `symbols_insufficient` }
 ```
 
 ### Coin Set Update
@@ -260,7 +246,25 @@ endPoint `coinsets/update`
 body: {
 	/** Coin Set Id String */
 	coinSetId: string,
-	coinSet: string[] // example [`BTC`,`ETH`]
+	coinSet: string[] // example [`BTC`,`ETH`], minimum two symbols
+}
+
+response: {
+	/** Coin Set Id String */
+	coinSetId: string,
+}
+
+error: { e: `symbols_insufficient` }
+```
+
+### Coin Set Delete
+Delete an existing coin set using coin set ID
+
+endPoint `coinsets/delete`
+```
+body: {
+	/** Coin Set Id String */
+	coinSetId: string,
 }
 
 response: {
