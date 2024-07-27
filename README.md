@@ -66,9 +66,9 @@ interface portSettings {
 ```
 interface exchData {
 	/** holdings on exchange */
-	holdings: JSON.stringify({ [sy: string]: number }), 
+	holdings: { [sy: string]: number },
 	/** positive numbers for buy, negative for sell */
-	trades?: JSON.stringify({ [sy: string]: number }), 
+	trades?: { [sy: string]: number },
 	/** Time traded last ms */
 	lastTraded?: number,
 	/** Next trade check ms */
@@ -84,7 +84,10 @@ Latest settings for all portfolios
 
 endPoint `portfolios/all`
 ```
-body: {}
+body: {
+	/** Portfolio Id String */
+	portId?: string
+}
 
 response: {
 	users: {
@@ -98,7 +101,10 @@ Latest trades for all portfolios
 
 endPoint `portfolios/trades`
 ```
-body: {}
+body: {
+	/** Portfolio Id String */
+	portId?: string
+}
 
 response: {
 	exchanges: {
