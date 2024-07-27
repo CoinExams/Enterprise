@@ -72,7 +72,9 @@ interface exchData {
 	/** Time traded last ms */
 	lastTraded?: number,
 	/** Next trade check ms */
-	nextCheck: number
+	nextCheck: number,
+	/** exchange Id */
+    exchId?: `bin`,
 }
 ```
 
@@ -108,9 +110,7 @@ body: {
 
 response: {
 	exchanges: {
-		[portId: string]: {
-			bin: exchData
-		}
+		[portId: string]: exchData
 	}
 }
 
