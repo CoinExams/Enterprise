@@ -255,7 +255,7 @@ response: {
 	coinSetId: string,
 }
 
-error: { e: `symbols_insufficient` }
+error: { e: `symbols_insufficient` | `${symbol} symbol_invalid` }
 ```
 
 ### Coin Set Update
@@ -279,7 +279,7 @@ response: {
 	coinSetId: string,
 }
 
-error: { e: `symbols_insufficient` }
+error: { e: `symbols_insufficient` | `${symbol} symbol_invalid` }
 ```
 
 ### Coin Set Delete
