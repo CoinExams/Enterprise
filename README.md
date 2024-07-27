@@ -212,7 +212,7 @@ endPoint `coinsets/options`
 ```
 body: {
 	/** exchange Id, currently limited to `bin` (Binance) */
-	exchId: `bin`
+	exchId?: `bin`
 }
 
 response: {
@@ -226,7 +226,10 @@ Create a new coin set and get coin set ID
 endPoint `coinsets/add`
 ```
 body: {
-	coinSet: string[] // example [`BTC`,`ETH`], minimum two symbols
+	/** exchange Id, currently limited to `bin` (Binance) */
+	exchId?: `bin`,
+	/** example [`BTC`,`ETH`], minimum two symbols */
+	coinSet: string[],
 }
 
 response: {
@@ -243,9 +246,12 @@ Update an existing coin set using coin set ID
 endPoint `coinsets/update`
 ```
 body: {
+	/** exchange Id, currently limited to `bin` (Binance) */
+	exchId?: `bin`,
 	/** Coin Set Id String */
 	coinSetId: string,
-	coinSet: string[] // example [`BTC`,`ETH`], minimum two symbols
+	/** example [`BTC`,`ETH`], minimum two symbols */
+	coinSet: string[],
 }
 
 response: {
@@ -262,6 +268,8 @@ Delete an existing coin set using coin set ID
 endPoint `coinsets/delete`
 ```
 body: {
+	/** exchange Id, currently limited to `bin` (Binance) */
+	exchId?: `bin`,
 	/** Coin Set Id String */
 	coinSetId: string,
 }
