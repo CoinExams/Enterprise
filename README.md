@@ -54,7 +54,7 @@ const
 interface portSettings {
 	/** 1 trade on | 0 trade off */
 	rb: 1 | 0,
-	
+
 	/** coins included list */
 	lst: string[],
 
@@ -210,7 +210,10 @@ All coin sets created
 
 endPoint `coinsets/all`
 ```
-body: {}
+body: {
+	/** exchange Id, currently limited to `bin` (Binance) */
+	exchId?: `bin`
+}
 
 response: {
 	coinSets: {
