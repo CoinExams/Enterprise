@@ -91,7 +91,7 @@ body: {
 
 response: {
 	users: {
-		[portId: string]: portSettings
+		[portId: string]: JSON.stringify(portSettings)
 	}
 }
 ```
