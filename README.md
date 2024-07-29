@@ -49,6 +49,10 @@ const
 ```
 
 ## Data Types
+### Exchange Ids
+```
+type exchIds = `bin`
+```
 ### Portfolio Settings
 ```
 interface portSettings {
@@ -66,6 +70,9 @@ interface portSettings {
 
 	/** coinset Id */
 	coinSetId?: string,
+
+	/** exchange Id */
+	exchId?: exchIds,
 }
 ```
 ### Exchange Data
@@ -84,7 +91,7 @@ interface exchData {
 	nextCheck: number,
 	
 	/** exchange Id */
-   	exchId?: `bin`,
+   	exchId?: exchIds,
 }
 ```
 
@@ -171,8 +178,8 @@ body: {
 	/** Portfolio Id String */
 	portId: string,
 
-	/** exchange Id, currently limited to `bin` (Binance) */
-	exchId: `bin`,
+	/** exchange Id */
+	exchId: exchIds,
 
 	/** exchange API key 1 */
 	k1: Exchange_API_Key,
@@ -214,12 +221,12 @@ All coin sets created
 endPoint `coinsets/all`
 ```
 body: {
-	/** exchange Id, currently limited to `bin` (Binance) */
-	exchId?: `bin`
+	/** exchange Id */
+	exchId: exchIds
 }
 
 response: {
-	coinSets: {
+	[exchId: exchIds]: {
 		[coinSetId: string]: string[] // example [`BTC`,`ETH`]
 	}
 }
@@ -231,8 +238,8 @@ Get a list of all possible token symbols
 endPoint `coinsets/options`
 ```
 body: {
-	/** exchange Id, currently limited to `bin` (Binance) */
-	exchId?: `bin`
+	/** exchange Id */
+	exchId: exchIds
 }
 
 response: {
@@ -246,8 +253,8 @@ Create a new coin set and get coin set ID
 endPoint `coinsets/add`
 ```
 body: {
-	/** exchange Id, currently limited to `bin` (Binance) */
-	exchId?: `bin`,
+	/** exchange Id */
+	exchId: exchIds,
 
 	/** example [`BTC`,`ETH`], minimum two symbols */
 	coinSet: string[],
@@ -267,8 +274,8 @@ Update an existing coin set using coin set ID
 endPoint `coinsets/update`
 ```
 body: {
-	/** exchange Id, currently limited to `bin` (Binance) */
-	exchId?: `bin`,
+	/** exchange Id */
+	exchId: exchIds,
 
 	/** Coin Set Id String */
 	coinSetId: string,
@@ -291,8 +298,8 @@ Delete an existing coin set using coin set ID
 endPoint `coinsets/delete`
 ```
 body: {
-	/** exchange Id, currently limited to `bin` (Binance) */
-	exchId?: `bin`,
+	/** exchange Id */
+	exchId: exchIds,
 
 	/** Coin Set Id String */
 	coinSetId: string,
