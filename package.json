@@ -1,14 +1,14 @@
 {
   "name": "coinexams",
   "version": "1.0.0",
-  "description": "CoinExams Core gives you access to the Crypto Portfolio Builder and other CoinExams services. Seamless integration with minimal implementation effort.",
+  "description": "CoinExams Enterprise gives you access to the Crypto Portfolio Builder and other CoinExams services. Seamless integration with minimal implementation effort.",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CoinExams/Core.git"
+    "url": "git+https://github.com/CoinExams/Enterprise.git"
   },
   "keywords": [
     "CoinExams",
@@ -22,7 +22,7 @@
   "author": "CoinExams",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/CoinExams/Core/issues"
+    "url": "https://github.com/CoinExams/Enterprise/issues"
   },
-  "homepage": "https://github.com/CoinExams/Core#readme"
+  "homepage": "https://github.com/CoinExams/Enterprise#readme"
 }

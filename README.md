@@ -1,7 +1,7 @@
-# CoinExams Enterprise API
+# CoinExams Enterprise
 
 ## Setup
-CoinExams API uses HMAC authentication to protect the data in transit. Thus, it is required to include the API key in request body and sign all requests with HMAC key. All requests are using POST method for ease, reliability, and security.
+CoinExams Enterprise APIs uses HMAC authentication to protect the data in transit. Thus, it is required to include the API key in request body and sign all requests with HMAC key. All requests are using POST method for ease, reliability, and security.
 ### Base URL
 ```
 const baseURL = `https://api.coinexams.com/v1/`;
