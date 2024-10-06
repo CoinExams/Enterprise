@@ -1,5 +1,4 @@
 import { createHmac } from "crypto";
-import fetch from "node-fetch";
 import {
     exchData,
     exchIds,

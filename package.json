@@ -24,12 +24,5 @@
   "bugs": {
     "url": "https://github.com/CoinExams/Enterprise/issues"
   },
-  "homepage": "https://github.com/CoinExams/Enterprise#readme",
-  "dependencies": {
-    "crypto": "^1.0.1",
-    "node-fetch": "^3.3.2"
-  },
-  "devDependencies": {
-    "@types/node": "^22.7.4"
-  }
+  "homepage": "https://github.com/CoinExams/Enterprise#readme"
 }
