@@ -131,8 +131,9 @@ response: {
 	}
 }
 
-error: { e: `no_trades` }
+error: { e: `no_trades` | `access_expired` }
 ```
+Note: for `access expired` please contact support to renew API access
 
 ### Portfolio New
 Create a new portfolio and get portfolio ID
