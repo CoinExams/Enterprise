@@ -1,5 +1,7 @@
+/** Exchanges Ids */
 export type exchIds = `bin`;
 
+/** Portfolio Settings */
 export interface portSettings {
     /** 1 trade on | 0 trade off */
     rb?: 1 | 0,
@@ -20,6 +22,7 @@ export interface portSettings {
     exchId?: exchIds,
 };
 
+/** Exchange user data */
 export interface exchData {
 	/** holdings on exchange */
 	holdings: { [sy: string]: number },

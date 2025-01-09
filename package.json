@@ -1,10 +1,13 @@
 {
   "name": "coinexams",
-  "version": "1.0.0",
-  "description": "CoinExams Enterprise gives you access to the Crypto Portfolio Builder and other CoinExams services. Seamless integration with minimal implementation effort.",
-  "main": "index.ts",
+  "version": "1.0.1",
+  "description": "CoinExams Enterprise API SDK gives you access to the Crypto Portfolio Builder and other CoinExams services. Seamless integration with minimal implementation effort.",
+  "main": "dist/index.js",
+  "module": "dist/coinexams.min.js",
+  "browser": "dist/coinexams.min.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -20,9 +23,29 @@
     "Assets Management"
   ],
   "author": "CoinExams",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/CoinExams/Enterprise/issues"
   },
-  "homepage": "https://github.com/CoinExams/Enterprise#readme"
+  "homepage": "https://github.com/CoinExams/Enterprise#readme",
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "esbuild": "^0.24.2",
+    "terser-webpack-plugin": "^5.3.11",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
+  },
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.1",
+    "stream-browserify": "^3.0.0"
+  }
 }
