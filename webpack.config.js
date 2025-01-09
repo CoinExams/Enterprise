@@ -33,11 +33,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(), // Clean output directory before each build
         new webpack.BannerPlugin({
-            banner: `/*! \n`
-                + `* CoinExams Enterprise API SDK \n`
-                + `* Licensed under MIT License https://opensource.org/licenses/MIT \n`
-                + `* API to be used in accordance with CoinExams terms https://coinexams.com/terms \n`
-                + `*/ \n`,
+            banner: `/*! MIT License. CoinExams Enterprise API SDK used in accordance with terms https://coinexams.com/terms */`,
             raw: true, // Ensures the comment appears as-is without being wrapped
         }),
     ],

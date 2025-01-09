@@ -6,7 +6,7 @@ CoinExams Enterprise APIs uses HMAC authentication to protect the data in transi
 Install using `yarn add coinexams` or `npm install coinexams` 
 
 OR use in browsers through CDN
-`<script src="https://cdn.jsdelivr.net/npm/coinexams@1.0.1/dist/coinexams.min.js"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/coinexams@1.0.2/dist/coinexams.min.js"></script>`
 
 ### Base URL
 ```
