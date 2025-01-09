@@ -1,319 +1,66 @@
 # CoinExams Enterprise
-
-## Setup
 CoinExams Enterprise APIs uses HMAC authentication to protect the data in transit. Thus, it is required to include the API key in request body and sign all requests with HMAC key. All requests are using POST method for ease, reliability, and security.
 
+## Installation
 Install using `yarn add coinexams` or `npm install coinexams` 
 
 OR use in browsers through CDN
 `<script src="https://cdn.jsdelivr.net/npm/coinexams@1.0.2/dist/coinexams.min.js"></script>`
 
-### Base URL
-```
-const baseURL = `https://api.coinexams.com/v1/`;
-```
-### Request Signed
-```
-import { createHmac } from "node:crypto";
-import fetch from "node-fetch";
+## CoinExams API keys
+Start by add api keys using `config({ apiKey, hmacKey })`
+Validate current configuration using `getConfig()`
 
-const
-    baseURL: string = `https://api.coinexams.com/v1/`,
-    key: string = `API Key`,
-    hmacKey: string = `API HMAC Key`,
-    requestFunction = async (
-        endPoint: string,
-        reqParm?: any
-    ) => {
-        const
-            body = {
-                key,
-                ...reqParm || {}
-            },
-            signature = createHmac(`sha256`, hmacKey)
-                .update(JSON.stringify(body))
-                .digest(`hex`),
-            res = await fetch(
-                baseURL + endPoint,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        ...body,
-                        signature
-                    })
-                }
-            ),
-            result: any = await res.json();
-
-        // request error
-        if (result?.e) console.log(`error`, result.e);
-
-        // request success
-        else return await result;
-    };
-```
-
-## Data Types
-### Exchange Ids
-```
-type exchIds = `bin`
-```
-### Portfolio Settings
-```
-interface portSettings {
-	/** 1 trade on | 0 trade off */
-	rb?: 1 | 0,
-
-	/** coins included list */
-	lst?: string[],
-
-	/** wallets holdings outside exchange, example { BTC: 0.01 } */
-	wal?: { [sy: string]: number },
-
-	/** manual distribution percentage, example for 50% { BTC: 50 } */
-	man?: { [sy: string]: number },
-
-	/** coinset Id */
-	coinSetId?: string,
-
-	/** exchange Id */
-	exchId?: exchIds,
-}
-```
-### Exchange Data
-```
-interface exchData {
-	/** holdings on exchange */
-	holdings: { [sy: string]: number },
-
-	/** positive numbers for buy, negative for sell */
-	trades?: { [sy: string]: number },
-
-	/** Time traded last ms */
-	lastTraded?: number,
-	
-	/** Next trade check ms */
-	nextCheck: number,
-	
-	/** exchange Id */
-   	exchId?: exchIds,
-}
-```
-
-## Endpoints
-Manage all portfolios created using API in your managing account
-
+## Portfolios
 ### Portfolios Settings
-Latest settings for all portfolios
-
-endPoint `portfolios/all`
-```
-body: {
-	/** Portfolio Id String */
-	portId?: string
-}
-
-response: {
-	users: {
-		[portId: string]: JSON.stringify(portSettings)
-	}
-}
-```
+Latest settings for all portfolios `portfolioSettings(portId)`
+Optional `portId` can be omitted to get all portfolios
 
 ### Portfolios Trades
-Latest trades for all portfolios
+Latest trades for all portfolios `portfolioTrades(portId)`
+Optional `portId` can be omitted to get all portfolios
 
-endPoint `portfolios/trades`
-```
-body: {
-	/** Portfolio Id String */
-	portId?: string
-}
-
-response: {
-	exchanges: {
-		[portId: string]: exchData
-	}
-}
-
-error: { e: `no_trades` | `access_expired` }
-```
-Note: for `access expired` please contact support to renew API access
+Error return `{ e: 'no_trades' | 'access_expired' }`
+For `access_expired` please contact support to renew API access
 
 ### Portfolio New
-Create a new portfolio and get portfolio ID
-
-endPoint `portfolios/add`
-```
-body: {
-	/** Portfolio Settings Stringified */
-	settings?: JSON.stringify(portSettings),
-}
-
-response: {
-	/** Portfolio Id String */
-	portId: string,
-}
-```
+Create a new portfolio and get portfolio ID `portfolioNew(portSettings)`
+Optional `portSettings` can be omitted to use default settings
+Returns new `portId`
 
 ### Portfolio Update
-Update an existing portfolio using portfolio ID
-
-endPoint `portfolios/update`
-```
-body: {
-	/** Portfolio Id String */
-	portId: string,
-
-	/** Portfolio Settings Stringified */
-	settings: JSON.stringify(portSettings),
-}
-
-response: {
-	/** Portfolio Id String */
-	portId: string,
-}
-```
+Update an existing portfolio using portfolio ID `portfolioUpdate({ portId, portSettings })`
+Returns `portId` as confirmation
 
 ### Portfolio Exchange APIs
 Add or update exchange API keys for a given exchange
+`portfolioExchAPI = async ({ portId, exchId, key1, key2 })`
+Returns `ExchangeHoldings` as `holdings` 
 
-endPoint `portfolios/api`
-```
-body: {
-	/** Portfolio Id String */
-	portId: string,
-
-	/** exchange Id */
-	exchId: exchIds,
-
-	/** exchange API key 1 */
-	k1: Exchange_API_Key,
-
-	/** exchange API key 2 */
-	k2: Exchange_API_Secret,
-}
-
-response: {
-	/** Portfolio Id String */
-	portId: string,
-
-	/** holdings on exchange */
-	holdings: { [sy: string]: number }
-}
-
-error: { e: `api_renew` | `api_invalid` }
-```
+Error return `{ e: 'api_renew' | 'api_invalid' }`
+For `api_renew` user has to check exchange for expired API access
 
 ### Portfolio Delete
-Delete an existing portfolio using portfolio ID
+Delete an existing portfolio using portfolio ID `portfolioDelete(portId)`
+Returns `portId` as confirmation
 
-endPoint `portfolios/delete`
-```
-body: {
-	/** Portfolio Id String */
-	portId: string,
-}
+## Coinsets
+### Coinsets All
+All coin sets created `coinSetsAll(exchId)`
+Optional `exchId` can be omitted to get all exchanges
 
-response: {
-	/** Portfolio Id String */
-	portId: string,
-}
-```
+### Coinset Options
+Get a list of all possible token symbols `coinSetsOptions(exchId)`
+Must define `exchId` since options vary for each exchange
 
-### Coin Sets
-All coin sets created
+### Coinset New
+Create a new coin set and get coin set ID `coinSetsNew({ exchId, coinSet })`
+Error return `{ e: 'symbols_insufficient' | '${symbol} symbol_invalid' }`
 
-endPoint `coinsets/all`
-```
-body: {
-	/** exchange Id */
-	exchId: exchIds
-}
+### Coinset Update
+Update an existing coin set using coin set ID `coinSetsUpdate({ exchId, coinSetId, coinSet })`
+Error return `{ e: 'symbols_insufficient' | '${symbol} symbol_invalid' }`
 
-response: {
-	[exchId: exchIds]: {
-		[coinSetId: string]: string[] // example [`BTC`,`ETH`]
-	}
-}
-```
-
-### Coin Set Options
-Get a list of all possible token symbols
-
-endPoint `coinsets/options`
-```
-body: {
-	/** exchange Id */
-	exchId: exchIds
-}
-
-response: {
-	options: string[], // example [`BTC`,`ETH`]
-}
-```
-
-### Coin Set New
-Create a new coin set and get coin set ID
-
-endPoint `coinsets/add`
-```
-body: {
-	/** exchange Id */
-	exchId: exchIds,
-
-	/** example [`BTC`,`ETH`], minimum two symbols */
-	coinSet: string[],
-}
-
-response: {
-	/** Coin Set Id String */
-	coinSetId: string,
-}
-
-error: { e: `symbols_insufficient` | `${symbol} symbol_invalid` }
-```
-
-### Coin Set Update
-Update an existing coin set using coin set ID
-
-endPoint `coinsets/update`
-```
-body: {
-	/** exchange Id */
-	exchId: exchIds,
-
-	/** Coin Set Id String */
-	coinSetId: string,
-
-	/** example [`BTC`,`ETH`], minimum two symbols */
-	coinSet: string[],
-}
-
-response: {
-	/** Coin Set Id String */
-	coinSetId: string,
-}
-
-error: { e: `symbols_insufficient` | `${symbol} symbol_invalid` }
-```
-
-### Coin Set Delete
-Delete an existing coin set using coin set ID
-
-endPoint `coinsets/delete`
-```
-body: {
-	/** exchange Id */
-	exchId: exchIds,
-
-	/** Coin Set Id String */
-	coinSetId: string,
-}
-
-response: {
-	/** Coin Set Id String */
-	coinSetId: string,
-}
-```
+### Coinset Delete
+Delete an existing coin set using coin set ID `coinSetsDelete({ exchId, coinSetId })`
+Returns `coinSetId` as confirmation

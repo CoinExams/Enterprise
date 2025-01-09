@@ -1,11 +1,14 @@
-import { config, getConfig } from "./config";
+import {
+    config,
+    getConfig,
+} from "./config";
 import {
     portfolioSettings,
     portfolioTrades,
     portfolioNew,
     portfolioUpdate,
     portfolioExchAPI,
-    portfolioDelete
+    portfolioDelete,
 } from "./portfolio";
 import {
     coinSetsAll,
@@ -16,15 +19,23 @@ import {
 } from "./coinsets";
 import {
     CoinsetDelete,
+    CoinsetError,
+    CoinsetId,
     CoinsetNew,
     CoinsetUpdate,
     CoinsetsData,
     ConfigSDK,
     ExchData,
+    ExchDataAll,
     ExchIds,
     ExchangeHoldings,
     PortSettings,
-    PortfolioExchAPI
+    PortfolioExchAPI,
+    PortfolioExchAPIError,
+    PortfolioExchAPIReturn,
+    PortfolioId,
+    PortfolioTradesError,
+    PortfolioUpdate,
 } from "./types";
 
 export {
@@ -36,16 +47,23 @@ export {
     // portfolios
     portfolioTrades,
     ExchData,
+    ExchDataAll,
+    PortfolioTradesError,
     portfolioNew,
     portfolioUpdate,
+    PortfolioUpdate,
     portfolioSettings,
     PortSettings,
     portfolioExchAPI,
     PortfolioExchAPI,
+    PortfolioExchAPIReturn,
+    PortfolioExchAPIError,
     ExchangeHoldings,
     portfolioDelete,
-    
+    PortfolioId,
+
     // coinsets
+    CoinsetId,
     coinSetsAll,
     CoinsetsData,
     coinSetsOptions,
@@ -56,4 +74,5 @@ export {
     CoinsetUpdate,
     coinSetsDelete,
     CoinsetDelete,
+    CoinsetError,
 };

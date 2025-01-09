@@ -1,5 +1,17 @@
-import { requestFun, invalidStr, logErr } from "./config";
-import { CoinsetDelete, CoinsetsData, CoinsetUpdate, CoinsetNew, ExchIds } from "./types";
+import {
+    requestFun,
+    invalidStr,
+    logErr,
+} from "./config";
+import {
+    CoinsetDelete,
+    CoinsetsData,
+    CoinsetUpdate,
+    CoinsetNew,
+    ExchIds,
+    CoinsetId,
+    CoinsetError,
+} from "./types";
 
 const
 
@@ -58,7 +70,11 @@ const
     coinSetsNew = async ({
         exchId,
         coinSet,
-    }: CoinsetNew): Promise<{ coinSetId: string } | { e: string } | undefined> => {
+    }: CoinsetNew): Promise<
+        CoinsetId
+        | CoinsetError
+        | undefined
+    > => {
         const endPoint = `coinsets/add`;
         try {
 
@@ -66,10 +82,9 @@ const
                 return { e: `symbols_insufficient` };
 
             const
-                data: {
-                    /** Coin Set Id String */
-                    coinSetId: string,
-                } = invalidStr([exchId?.toString()].concat(coinSet)) ? undefined
+                data: CoinsetId =
+                    invalidStr([exchId?.toString()]
+                        ?.concat(coinSet)) ? undefined
                         : await requestFun(
                             endPoint,
                             { exchId, coinSet }
@@ -89,7 +104,11 @@ const
         exchId,
         coinSetId,
         coinSet,
-    }: CoinsetUpdate): Promise<{ coinSetId: string } | { e: string } | undefined> => {
+    }: CoinsetUpdate): Promise<
+        CoinsetId
+        | CoinsetError
+        | undefined
+    > => {
         const endPoint = `coinsets/update`;
         try {
 
@@ -97,10 +116,9 @@ const
                 return { e: `symbols_insufficient` };
 
             const
-                data: {
-                    /** Coin Set Id String */
-                    coinSetId: string,
-                } = invalidStr([coinSetId, exchId?.toString()].concat(coinSet)) ? undefined
+                data: CoinsetId =
+                    invalidStr([coinSetId, exchId?.toString()]
+                        ?.concat(coinSet)) ? undefined
                         : await requestFun(
                             endPoint,
                             { coinSetId, exchId, coinSet }
@@ -119,15 +137,17 @@ const
     coinSetsDelete = async ({
         exchId,
         coinSetId,
-    }: CoinsetDelete): Promise<{ coinSetId: string } | undefined> => {
+    }: CoinsetDelete): Promise<
+        CoinsetId
+        | undefined
+    > => {
         const endPoint = `coinsets/delete`;
         try {
 
             const
-                data: {
-                    /** Coin Set Id String */
-                    coinSetId: string,
-                } = invalidStr([coinSetId, exchId?.toString()]) ? undefined
+                data: CoinsetId =
+                    invalidStr([coinSetId, exchId?.toString()])
+                        ? undefined
                         : await requestFun(
                             endPoint,
                             { exchId, coinSetId }

@@ -1,5 +1,20 @@
-import { invalidStr, logErr, requestFun } from "./config";
-import { ExchangeHoldings, PortfolioExchAPI, ExchData, PortSettings as PortSettings } from "./types";
+import {
+    invalidStr,
+    logErr,
+    requestFun,
+} from "./config";
+import {
+    PortfolioExchAPI,
+    PortSettings,
+    ExchDataAll,
+    PortSettingsAll,
+    PortSettingsAllString,
+    PortfolioUpdate,
+    PortfolioExchAPIReturn,
+    PortfolioExchAPIError,
+    PortfolioTradesError,
+    PortfolioId,
+} from "./types";
 
 const
 
@@ -12,32 +27,25 @@ const
     portfolioSettings = async (
         /** Portfolio Id (optional) */
         portId?: string
-    ): Promise<{
-        [portId: string]: PortSettings
-    } | undefined> => {
+    ): Promise<PortSettingsAll> => {
         const endPoint = `portfolios/all`;
         try {
             const
-                data: {
-                    users: {
-                        [portId: string]: string
-                    }
-                } = await requestFun(
-                    endPoint,
-                    invalidStr([portId]) ? undefined
-                        : { portId }
-                ),
+                data: { users: PortSettingsAllString } =
+                    await requestFun(
+                        endPoint,
+                        invalidStr([portId]) ? undefined
+                            : { portId }
+                    ),
                 usersRaw = data?.users,
-                users: {
-                    [portId: string]: PortSettings
-                } = {};
-            if (!usersRaw) return
+                users: PortSettingsAll = {};
+            if (!usersRaw) return {}
             for (const portId in usersRaw)
                 users[portId] = JSON.parse(usersRaw[portId])
             return users
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return {}
         };
     },
 
@@ -50,9 +58,10 @@ const
     portfolioTrades = async (
         /** Portfolio Id (optional) */
         portId?: string
-    ): Promise<{
-        [portId: string]: ExchData
-    } | undefined> => {
+    ): Promise<
+        ExchDataAll
+        | PortfolioTradesError
+        | undefined> => {
         const endPoint = `portfolios/trades`;
         try {
             const
@@ -61,10 +70,8 @@ const
                     invalidStr([portId]) ? undefined
                         : { portId }
                 ),
-                exchangesData: {
-                    [portId: string]: ExchData
-                } = data?.exchanges;
-            return exchangesData
+                exchangesData: ExchDataAll = data?.exchanges;
+            return exchangesData || data
         } catch (e) {
             logErr(e, endPoint);
             return
@@ -78,19 +85,13 @@ const
      * */
     portfolioNew = async (
         /** Portfolio Settings (optional) */
-        settings?: PortSettings
-    ): Promise<{
-        /** Portfolio Id String */
-        portId: string,
-    } | undefined> => {
+        portSettings?: PortSettings
+    ): Promise<PortfolioId | undefined> => {
         const endPoint = `portfolios/add`;
         try {
             const
-                settingsString = !settings ? undefined : JSON.stringify(settings),
-                data: {
-                    /** Portfolio Id String */
-                    portId: string,
-                } | undefined = await requestFun(
+                settingsString = !portSettings ? undefined : JSON.stringify(portSettings),
+                data: PortfolioId | undefined = await requestFun(
                     endPoint,
                     invalidStr([settingsString]) ? undefined
                         : { settings: settingsString }
@@ -109,24 +110,14 @@ const
      * */
     portfolioUpdate = async ({
         portId,
-        settings,
-    }: {
-        /** Portfolio Id */
-        portId: string,
-        /** Portfolio Settings */
-        settings: PortSettings,
-    }): Promise<{
-        /** Portfolio Id String */
-        portId: string,
-    } | undefined> => {
+        portSettings,
+    }: PortfolioUpdate): Promise<PortfolioId | undefined> => {
         const endPoint = `portfolios/update`;
         try {
             const
-                settingsString = !settings ? undefined : JSON.stringify(settings),
-                data: {
-                    /** Portfolio Id String */
-                    portId: string,
-                } | undefined = invalidStr([portId, settingsString]) ? undefined
+                settingsString = !portSettings ? undefined : JSON.stringify(portSettings),
+                data: PortfolioId | undefined =
+                    invalidStr([portId, settingsString]) ? undefined
                         : await requestFun(
                             endPoint,
                             {
@@ -149,37 +140,31 @@ const
     portfolioExchAPI = async ({
         portId,
         exchId,
-        k1,
-        k2,
-    }: PortfolioExchAPI): Promise<{
-        /** Portfolio Id */
-        portId: string,
-        /** holdings on exchange */
-        holdings: ExchangeHoldings
-    } | { e: `api_renew` | `api_invalid` } | undefined> => {
+        key1,
+        key2,
+    }: PortfolioExchAPI): Promise<
+        PortfolioExchAPIReturn
+        | PortfolioExchAPIError
+        | undefined
+    > => {
         const endPoint = `portfolios/api`;
         try {
 
-            if (invalidStr([k1, k2]))
+            if (invalidStr([key1, key2]))
                 return { e: `api_invalid` }
 
             const
                 data:
-                    {
-                        /** Portfolio Id */
-                        portId: string,
-                        /** holdings on exchange */
-                        holdings: { [sy: string]: number }
-                    }
-                    | { e: `api_renew` | `api_invalid` }
+                    PortfolioExchAPIReturn
+                    | PortfolioExchAPIError
                     | undefined = invalidStr([portId, exchId]) ? undefined
                         : await requestFun(
                             endPoint,
                             {
                                 portId,
                                 exchId,
-                                k1,
-                                k2
+                                k1: key1,
+                                k2: key2
                             }
                         );
             return data
@@ -197,21 +182,15 @@ const
     portfolioDelete = async (
         /** Portfolio Id */
         portId: string,
-    ): Promise<{
-        /** Portfolio Id String */
-        portId: string,
-    } | undefined> => {
+    ): Promise<PortfolioId | undefined> => {
         const endPoint = `portfolios/delete`;
         try {
             const
-                data: {
-                    /** Portfolio Id String */
-                    portId: string,
-                } | undefined = invalidStr([portId]) ? undefined
-                        : await requestFun(
-                            endPoint,
-                            { portId }
-                        );
+                data: PortfolioId | undefined = invalidStr([portId]) ? undefined
+                    : await requestFun(
+                        endPoint,
+                        { portId }
+                    );
             return data
         } catch (e) {
             logErr(e, endPoint);
