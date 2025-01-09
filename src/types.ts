@@ -1,8 +1,38 @@
+/** SDK configuration */
+export interface ConfigSDK {
+    apiKey: string,
+    hmacKey: string,
+    consoleLogEnabled: boolean,
+};
+
 /** Exchanges Ids */
-export type exchIds = `bin`;
+export type ExchIds = `bin`;
+
+/** Exchange user data */
+export interface ExchData {
+    /** holdings on exchange */
+    holdings: { [sy: string]: number },
+
+    /** positive numbers for buy, negative for sell */
+    trades?: { [sy: string]: number },
+
+    /** Time traded last ms */
+    lastTraded?: number,
+
+    /** Next trade check ms */
+    nextCheck: number,
+
+    /** exchange Id */
+    exchId?: ExchIds,
+}
+
+/** Exchange Holdings */
+export interface ExchangeHoldings {
+    [sy: string]: number
+}
 
 /** Portfolio Settings */
-export interface portSettings {
+export interface PortSettings {
     /** 1 trade on | 0 trade off */
     rb?: 1 | 0,
 
@@ -19,23 +49,50 @@ export interface portSettings {
     coinSetId?: string,
 
     /** exchange Id */
-    exchId?: exchIds,
+    exchId?: ExchIds,
 };
 
-/** Exchange user data */
-export interface exchData {
-	/** holdings on exchange */
-	holdings: { [sy: string]: number },
+/** Portfolio Exchange API */
+export interface PortfolioExchAPI {
+    /** Portfolio Id */
+    portId: string,
+    /** exchange Id */
+    exchId: ExchIds,
+    /** exchange API key 1 */
+    k1: string,
+    /** exchange API key 2 */
+    k2: string,
+}
 
-	/** positive numbers for buy, negative for sell */
-	trades?: { [sy: string]: number },
+/** New Coinset */
+export interface CoinsetNew {
+    /** exchange Id */
+    exchId: ExchIds,
+    /** example [`BTC`,`ETH`], minimum two symbols */
+    coinSet: string[],
+}
 
-	/** Time traded last ms */
-	lastTraded?: number,
-	
-	/** Next trade check ms */
-	nextCheck: number,
-	
-	/** exchange Id */
-   	exchId?: exchIds,
+/** Delete Coinset */
+export interface CoinsetDelete {
+    /** exchange Id */
+    exchId: ExchIds,
+    /** Coin Set Id String */
+    coinSetId: string,
+}
+
+/** Coinset Update */
+export interface CoinsetUpdate {
+    /** exchange Id */
+    exchId: ExchIds,
+    /** Coin Set Id String */
+    coinSetId: string,
+    /** example [`BTC`,`ETH`], minimum two symbols */
+    coinSet: string[],
+}
+
+/** Coinsets Data */
+export interface CoinsetsData {
+    [exchId: string]: {
+        [coinSetId: string]: string[]
+    }
 }

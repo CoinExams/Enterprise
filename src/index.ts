@@ -1,29 +1,59 @@
+import { config, getConfig } from "./config";
 import {
     portfolioSettings,
     portfolioTrades,
     portfolioNew,
     portfolioUpdate,
     portfolioExchAPI,
-    portfolioDelete,
+    portfolioDelete
+} from "./portfolio";
+import {
     coinSetsAll,
     coinSetsOptions,
     coinSetsNew,
     coinSetsUpdate,
     coinSetsDelete,
-    config,
-} from "./enterprise";
+} from "./coinsets";
+import {
+    CoinsetDelete,
+    CoinsetNew,
+    CoinsetUpdate,
+    CoinsetsData,
+    ConfigSDK,
+    ExchData,
+    ExchIds,
+    ExchangeHoldings,
+    PortSettings,
+    PortfolioExchAPI
+} from "./types";
 
 export {
+    // configuration
     config,
-    portfolioSettings,
+    getConfig,
+    ConfigSDK,
+
+    // portfolios
     portfolioTrades,
+    ExchData,
     portfolioNew,
     portfolioUpdate,
+    portfolioSettings,
+    PortSettings,
     portfolioExchAPI,
+    PortfolioExchAPI,
+    ExchangeHoldings,
     portfolioDelete,
+    
+    // coinsets
     coinSetsAll,
+    CoinsetsData,
     coinSetsOptions,
+    ExchIds,
     coinSetsNew,
+    CoinsetNew,
     coinSetsUpdate,
+    CoinsetUpdate,
     coinSetsDelete,
+    CoinsetDelete,
 };
