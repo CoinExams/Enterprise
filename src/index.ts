@@ -42,6 +42,7 @@ import { EVMAddress, PayTxsData } from "merchantslate";
 import {
     payPortfolio,
     payPortfolioValid,
+    payDone,
 } from "./pay";
 
 export {
@@ -74,6 +75,7 @@ export {
     PayTxsData,
     payPortfolioValid,
     EVMAddress,
+    payDone,
 
     // coinsets
     CoinsetId,
