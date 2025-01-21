@@ -1,5 +1,6 @@
 import { createHmac } from 'crypto';
-import { ConfigSDK } from './types';
+import { APISpecs, ConfigSDK } from './types';
+import { ChainIds } from 'merchantslate';
 
 const
     /** SDK configuration */
@@ -16,14 +17,21 @@ const
     config = ({
         apiKey,
         hmacKey,
+        payId,
+        payChain,
         consoleLogEnabled,
     }: {
         apiKey?: string,
         hmacKey?: string,
+        payId?: string,
+        payChain?: ChainIds,
         consoleLogEnabled?: boolean
     }) => {
         if (apiKey) configuration.apiKey = apiKey;
         if (hmacKey) configuration.hmacKey = hmacKey;
+        if (apiKey || hmacKey) apiData();
+        if (payId) configuration.payId = payId;
+        if (payChain) configuration.payChain = payChain;
         if (consoleLogEnabled != undefined)
             configuration.consoleLogEnabled = consoleLogEnabled;
     },
@@ -91,6 +99,15 @@ const
             logErr(e);
             return
         };
+    },
+    /** API data */
+    apiData = async (): Promise<APISpecs | undefined> => {
+        const
+            data: APISpecs | undefined = (await requestFun(`account/info`))?.data,
+            payId = data?.payId,
+            payChain = data?.payChain;
+        if (payId && payChain) config({ payId, payChain });
+        return data;
     };
 
 export {
@@ -98,5 +115,6 @@ export {
     config,
     logErr,
     invalidStr,
-    requestFun
+    requestFun,
+    apiData,
 }

@@ -19,7 +19,7 @@ portfolioTrades: (portId?: string) => Promise<ExchDataAll | PortfolioTradesError
  * Create a new portfolio and get portfolio ID
  * @returns new portfolio id string
  * */
-portfolioNew: (portSettings?: PortSettings) => Promise<PortfolioId | undefined>, 
+portfolioNew: (payingWallet: string, portSettings?: PortSettings) => Promise<PortfolioId | undefined>, 
 /**
  * Portfolio Update :
  * Update an existing portfolio using portfolio ID

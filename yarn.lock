@@ -1930,10 +1930,10 @@ memfs@^4.6.0:
     tree-dump "^1.0.1"
     tslib "^2.0.0"
 
-merchantslate@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/merchantslate/-/merchantslate-0.3.2.tgz#9f61e313899b4ca1f7044ec3832a05c647217d46"
-  integrity sha512-CoXSMQjqvR2Wo9gzll4Hua+tfIefW0xeKh3jIEsB5xI2xW4kxzQbzqiqfDsYwkPaob7hcLbxDYZ97g5WO1YFtg==
+merchantslate@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/merchantslate/-/merchantslate-0.3.6.tgz#8d577d1edffa11c6e9870cbe6a301e72b816f3a5"
+  integrity sha512-tskOzUGnUgevpFHFPH6vGJTUTq5Awhlvgc0kC0YMBtLca3tfTAe13OpzMpQXTCX/WTanKsE/mmfawk8tQxbGYw==
   dependencies:
     ethers "^6.13.4"
 

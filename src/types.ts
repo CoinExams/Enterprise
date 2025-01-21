@@ -1,15 +1,62 @@
+import { ChainIds } from "merchantslate";
+
 /** SDK configuration */
-export interface ConfigSDK {
+interface ConfigSDK {
+    /** API Key */
     apiKey: string,
+    /** HMAC key */
     hmacKey: string,
+    /** Log errors */
     consoleLogEnabled: boolean,
+    /** Payment Id */
+    payId?: string,
+    /** payment chain */
+    payChain?: ChainIds,
 };
 
+/** API Basics */
+interface APIBasics {
+    /** Client Name */
+    clientName: string,
+    /** Pay Chain */
+    payChain?: `BSC`,
+    /** Pay Id */
+    payId?: string,
+    /** max allowed user portfolio count */
+    maxPorts: number,
+    /** reference currency */
+    cur: string,
+    /** fee per portfolio */
+    fee: number,
+    /** paused */
+    paused?: boolean,
+    /** number of portfolios */
+    portfolios: number,
+}
+
+/** API info */
+interface APIInfo extends APIBasics {
+    /** time requested */
+    requested: number,
+    /** time updated */
+    updated: number,
+}
+
+/** API specifications */
+interface APISpecs extends APIInfo {
+    /** Client Id (User Account DB Id) */
+    clientId: string,
+    /** Client Name */
+    clientName: string,
+    /** API hmac EN */
+    hmacEN: string,
+}
+
 /** Exchanges Ids */
-export type ExchIds = `bin`;
+type ExchIds = `bin`;
 
 /** Exchange user data */
-export interface ExchData {
+interface ExchData {
     /** holdings on exchange */
     holdings: { [sy: string]: number },
 
@@ -27,17 +74,17 @@ export interface ExchData {
 }
 
 /** Exchange data all users */
-export interface ExchDataAll {
+interface ExchDataAll {
     [portId: string]: ExchData
 }
 
 /** Exchange Holdings */
-export interface ExchangeHoldings {
+interface ExchangeHoldings {
     [sy: string]: number
 }
 
 /** Portfolio Settings */
-export interface PortSettings {
+interface PortSettings {
     /** 1 trade on | 0 trade off */
     rb?: 1 | 0,
 
@@ -58,18 +105,18 @@ export interface PortSettings {
 };
 
 /** Portfolio ID return */
-export interface PortfolioId {
+interface PortfolioId {
     /** Portfolio Id String */
     portId: string,
 }
 
 /** Portfolio Trades Error */
-export interface PortfolioTradesError {
+interface PortfolioTradesError {
     e: `no_trades` | `access_expired`
 }
 
 /** Portfolio Update */
-export interface PortfolioUpdate {
+interface PortfolioUpdate {
     /** Portfolio Id */
     portId: string,
     /** Portfolio Settings */
@@ -77,17 +124,17 @@ export interface PortfolioUpdate {
 }
 
 /** Portfolio Settings All */
-export interface PortSettingsAll {
+interface PortSettingsAll {
     [portId: string]: PortSettings
 }
 
 /** Portfolio Settings All Stringified */
-export interface PortSettingsAllString {
+interface PortSettingsAllString {
     [portId: string]: string
 }
 
 /** Portfolio Exchange API */
-export interface PortfolioExchAPI {
+interface PortfolioExchAPI {
     /** Portfolio Id */
     portId: string,
     /** exchange Id */
@@ -99,7 +146,7 @@ export interface PortfolioExchAPI {
 }
 
 /** Portfolio Exchange API Return */
-export interface PortfolioExchAPIReturn {
+interface PortfolioExchAPIReturn {
     /** Portfolio Id */
     portId: string,
     /** holdings on exchange */
@@ -107,12 +154,12 @@ export interface PortfolioExchAPIReturn {
 }
 
 /** Portfolio Exchange API Error */
-export interface PortfolioExchAPIError {
+interface PortfolioExchAPIError {
     e: `api_renew` | `api_invalid`
 }
 
 /** New Coinset */
-export interface CoinsetNew {
+interface CoinsetNew {
     /** exchange Id */
     exchId: ExchIds,
     /** example [`BTC`,`ETH`], minimum two symbols */
@@ -120,7 +167,7 @@ export interface CoinsetNew {
 }
 
 /** Delete Coinset */
-export interface CoinsetDelete {
+interface CoinsetDelete {
     /** exchange Id */
     exchId: ExchIds,
     /** Coin Set Id String */
@@ -128,7 +175,7 @@ export interface CoinsetDelete {
 }
 
 /** Coinset Update */
-export interface CoinsetUpdate {
+interface CoinsetUpdate {
     /** exchange Id */
     exchId: ExchIds,
     /** Coin Set Id String */
@@ -138,19 +185,51 @@ export interface CoinsetUpdate {
 }
 
 /** Coinsets Data */
-export interface CoinsetsData {
+interface CoinsetsData {
     [exchId: string]: {
         [coinSetId: string]: string[]
     }
 }
 
 /** Coinset Id return */
-export interface CoinsetId {
+interface CoinsetId {
     /** Coin Set Id String */
     coinSetId: string,
 }
 
 /** Coinset Error */
-export interface CoinsetError {
+interface CoinsetError {
     e: `symbols_insufficient` | `BTC symbol_invalid`
 }
+
+
+export {
+    // configuration
+    ConfigSDK,
+    APISpecs,
+
+    // exchanges
+    ExchIds,
+    ExchData,
+    ExchDataAll,
+    ExchangeHoldings,
+
+    // portfolios
+    PortSettings,
+    PortfolioId,
+    PortfolioTradesError,
+    PortfolioUpdate,
+    PortSettingsAll,
+    PortSettingsAllString,
+    PortfolioExchAPI,
+    PortfolioExchAPIReturn,
+    PortfolioExchAPIError,
+
+    // coinsets
+    CoinsetNew,
+    CoinsetDelete,
+    CoinsetUpdate,
+    CoinsetsData,
+    CoinsetId,
+    CoinsetError,
+};

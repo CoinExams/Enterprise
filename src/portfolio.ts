@@ -84,6 +84,8 @@ const
      * @returns new portfolio id string
      * */
     portfolioNew = async (
+        /** User wallet address (for payment validation) */
+        payingWallet: string,
         /** Portfolio Settings (optional) */
         portSettings?: PortSettings
     ): Promise<PortfolioId | undefined> => {
@@ -95,7 +97,7 @@ const
                 data: PortfolioId | undefined = await requestFun(
                     endPoint,
                     invalidStr([settings]) ? undefined
-                        : { settings }
+                        : { settings, payingWallet }
                 );
             return data
         } catch (e) {

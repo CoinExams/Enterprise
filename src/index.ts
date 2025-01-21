@@ -1,4 +1,5 @@
 import {
+    apiData,
     config,
     getConfig,
 } from "./config";
@@ -37,12 +38,18 @@ import {
     PortfolioTradesError,
     PortfolioUpdate,
 } from "./types";
+import { EVMAddress, PayTxsData } from "merchantslate";
+import {
+    payPortfolio,
+    payPortfolioValid,
+} from "./pay";
 
 export {
     // configuration
     config,
     getConfig,
     ConfigSDK,
+    apiData,
 
     // portfolios
     portfolioTrades,
@@ -61,6 +68,12 @@ export {
     ExchangeHoldings,
     portfolioDelete,
     PortfolioId,
+
+    // payment
+    payPortfolio,
+    PayTxsData,
+    payPortfolioValid,
+    EVMAddress,
 
     // coinsets
     CoinsetId,
