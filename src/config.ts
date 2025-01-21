@@ -24,7 +24,8 @@ const
     }) => {
         if (apiKey) configuration.apiKey = apiKey;
         if (hmacKey) configuration.hmacKey = hmacKey;
-        if (consoleLogEnabled != undefined) configuration.consoleLogEnabled = consoleLogEnabled;
+        if (consoleLogEnabled != undefined)
+            configuration.consoleLogEnabled = consoleLogEnabled;
     },
     /** CoinExams Base API URL  */
     baseURL: string = `https://api.coinexams.com/v1/`,

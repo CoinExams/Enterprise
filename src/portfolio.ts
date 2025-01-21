@@ -90,11 +90,12 @@ const
         const endPoint = `portfolios/add`;
         try {
             const
-                settingsString = !portSettings ? undefined : JSON.stringify(portSettings),
+                settings = !portSettings ? undefined
+                    : JSON.stringify(portSettings),
                 data: PortfolioId | undefined = await requestFun(
                     endPoint,
-                    invalidStr([settingsString]) ? undefined
-                        : { settings: settingsString }
+                    invalidStr([settings]) ? undefined
+                        : { settings }
                 );
             return data
         } catch (e) {
@@ -115,14 +116,15 @@ const
         const endPoint = `portfolios/update`;
         try {
             const
-                settingsString = !portSettings ? undefined : JSON.stringify(portSettings),
+                settings = !portSettings ? undefined
+                    : JSON.stringify(portSettings),
                 data: PortfolioId | undefined =
-                    invalidStr([portId, settingsString]) ? undefined
+                    invalidStr([portId, settings]) ? undefined
                         : await requestFun(
                             endPoint,
                             {
                                 portId,
-                                settings: settingsString
+                                settings
                             }
                         );
             return data
