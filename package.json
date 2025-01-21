@@ -46,6 +46,7 @@
   "dependencies": {
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
+    "merchantslate": "^0.3.2",
     "stream-browserify": "^3.0.0"
   }
 }
