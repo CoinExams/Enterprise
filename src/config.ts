@@ -14,7 +14,7 @@ const
         return configuration
     },
     /** Configure SDK */
-    config = ({
+    config = async ({
         apiKey,
         hmacKey,
         payId,
@@ -29,11 +29,11 @@ const
     }) => {
         if (apiKey) configuration.apiKey = apiKey;
         if (hmacKey) configuration.hmacKey = hmacKey;
-        if (apiKey || hmacKey) apiData();
         if (payId) configuration.payId = payId;
         if (payChain) configuration.payChain = payChain;
         if (consoleLogEnabled != undefined)
             configuration.consoleLogEnabled = consoleLogEnabled;
+        if (apiKey || hmacKey) await getApiData();
     },
     /** CoinExams Base API URL  */
     baseURL: string = `https://api.coinexams.com/v1/`,
@@ -101,7 +101,7 @@ const
         };
     },
     /** API data */
-    apiData = async (): Promise<APISpecs | undefined> => {
+    getApiData = async (): Promise<APISpecs | undefined> => {
         const
             data: APISpecs | undefined = (await requestFun(`account/info`))?.data,
             payId = data?.payId,
@@ -116,5 +116,5 @@ export {
     logErr,
     invalidStr,
     requestFun,
-    apiData,
+    getApiData,
 }

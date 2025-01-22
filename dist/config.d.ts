@@ -10,7 +10,7 @@ config: ({ apiKey, hmacKey, payId, payChain, consoleLogEnabled, }: {
     payId?: string;
     payChain?: ChainIds;
     consoleLogEnabled?: boolean;
-}) => void, 
+}) => Promise<void>, 
 /** Invalid Strings Check */
 invalidStr: (params: (string | undefined)[]) => boolean, 
 /** Log Function Error */
@@ -18,5 +18,5 @@ logErr: (e: any, endPoint?: string) => void,
 /** Main Request Function */
 requestFun: (endPoint: string, reqParm?: any) => Promise<any>, 
 /** API data */
-apiData: () => Promise<APISpecs | undefined>;
-export { getConfig, config, logErr, invalidStr, requestFun, apiData, };
+getApiData: () => Promise<APISpecs | undefined>;
+export { getConfig, config, logErr, invalidStr, requestFun, getApiData, };

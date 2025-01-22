@@ -1,5 +1,5 @@
 import {
-    apiData,
+    getApiData,
     config,
     getConfig,
 } from "./config";
@@ -19,6 +19,7 @@ import {
     coinSetsDelete,
 } from "./coinsets";
 import {
+    APISpecs,
     CoinsetDelete,
     CoinsetError,
     CoinsetId,
@@ -50,7 +51,8 @@ export {
     config,
     getConfig,
     ConfigSDK,
-    apiData,
+    getApiData,
+    APISpecs,
 
     // portfolios
     portfolioTrades,
