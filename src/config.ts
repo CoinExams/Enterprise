@@ -1,6 +1,7 @@
 import { createHmac } from 'crypto';
-import { APISpecs, ConfigSDK } from './types';
+import { APISpecs, ClientPayments, ConfigSDK, ResultPromise } from './types';
 import { ChainIds } from 'merchantslate';
+import { fullRes } from './response';
 
 const
     /** SDK configuration */
@@ -33,7 +34,7 @@ const
         if (payChain) configuration.payChain = payChain;
         if (consoleLogEnabled != undefined)
             configuration.consoleLogEnabled = consoleLogEnabled;
-        if (apiKey || hmacKey) await getApiData();
+        if (apiKey || hmacKey) await accountInfo();
     },
     /** CoinExams Base API URL  */
     baseURL: string = `https://api.coinexams.com/v1/`,
@@ -84,30 +85,40 @@ const
                         })
                     }
                 ),
-                result: any = await res.json();
+                result = await res.json();
 
-            // request error
+            // log request error
             if (
-                result?.e
+                !result?.success
+                && result?.e != undefined
                 && configuration.consoleLogEnabled
             ) {
-                console.log(`error`, result.e);
+                console.log(`error`, result?.e);
+            };
 
-                // request success
-            } else return await result;
+            // return results
+            return result;
         } catch (e) {
             logErr(e);
             return
         };
     },
     /** API data */
-    getApiData = async (): Promise<APISpecs | undefined> => {
+    accountInfo = async (): ResultPromise<APISpecs> => {
         const
-            data: APISpecs | undefined = (await requestFun(`account/info`))?.data,
+            res = await requestFun(`account/info`),
+            data: APISpecs = res?.data,
             payId = data?.payId,
             payChain = data?.payChain;
         if (payId && payChain) config({ payId, payChain });
-        return data;
+        return fullRes(res, data);
+    },
+    /** API payments list */
+    accountPayments = async (): ResultPromise<ClientPayments[]> => {
+        const
+            res = await requestFun(`account/payments`),
+            data: ClientPayments[] = res?.payments;
+        return fullRes(res, data);
     };
 
 export {
@@ -116,5 +127,6 @@ export {
     logErr,
     invalidStr,
     requestFun,
-    getApiData,
+    accountInfo,
+    accountPayments,
 }

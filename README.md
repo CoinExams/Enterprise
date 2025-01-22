@@ -6,15 +6,15 @@ Install using `yarn add coinexams` or `npm install coinexams`
 
 OR use in browsers through CDN
 
-`<script src="https://cdn.jsdelivr.net/npm/coinexams@1.0.6/dist/coinexams.min.js"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/coinexams@1.0.7/dist/coinexams.min.js"></script>`
 
 ## CoinExams API keys
 Start by add api keys using `config({ apiKey, hmacKey })`
 Validate current configuration using `getConfig()`
 
 ## Portfolios
-### Portfolios Settings
-Latest settings for all portfolios `portfolioSettings(portId)`
+### Portfolios Data
+Latest settings for all portfolios `portfolioData(portId)`
 Optional `portId` can be omitted to get all portfolios
 
 ### Portfolios Trades

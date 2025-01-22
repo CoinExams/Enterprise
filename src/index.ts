@@ -1,15 +1,16 @@
 import {
-    getApiData,
+    accountInfo,
+    accountPayments,
     config,
     getConfig,
 } from "./config";
 import {
-    portfolioSettings,
     portfolioTrades,
     portfolioNew,
     portfolioUpdate,
     portfolioExchAPI,
     portfolioDelete,
+    portfolioData,
 } from "./portfolio";
 import {
     coinSetsAll,
@@ -33,10 +34,8 @@ import {
     ExchangeHoldings,
     PortSettings,
     PortfolioExchAPI,
-    PortfolioExchAPIError,
     PortfolioExchAPIReturn,
     PortfolioId,
-    PortfolioTradesError,
     PortfolioUpdate,
 } from "./types";
 import { EVMAddress, PayTxsData } from "merchantslate";
@@ -45,29 +44,30 @@ import {
     payPortfolioValid,
     payDone,
 } from "./pay";
+import { errorMsgs } from "./response";
 
 export {
     // configuration
     config,
     getConfig,
     ConfigSDK,
-    getApiData,
+    accountInfo,
+    accountPayments,
     APISpecs,
-
+    errorMsgs,
+    
     // portfolios
     portfolioTrades,
     ExchData,
     ExchDataAll,
-    PortfolioTradesError,
     portfolioNew,
     portfolioUpdate,
     PortfolioUpdate,
-    portfolioSettings,
+    portfolioData,
     PortSettings,
     portfolioExchAPI,
     PortfolioExchAPI,
     PortfolioExchAPIReturn,
-    PortfolioExchAPIError,
     ExchangeHoldings,
     portfolioDelete,
     PortfolioId,

@@ -1,34 +1,42 @@
-import { EVMAddress, payValidation, payTxs } from "merchantslate";
+import { EVMAddress, payValidation, payTxs, PayTxsData } from "merchantslate";
 import { getConfig, invalidStr, logErr, requestFun } from "./config";
+import { ResultPromise } from "./types";
+import { eRes, fullRes } from "./response";
 
 const
     /** Payment for Portfolio */
-    payPortfolio = async () => {
+    payPortfolio = async (): ResultPromise<PayTxsData> => {
         const
             data = getConfig(),
             payChain = data?.payChain,
             payId = data?.payId;
-        if (!payChain || !payId) return
-        const txs = await payTxs(payChain, payId);
-        if (txs.success)
-            return txs?.data
+
+        if (!payChain || !payId)
+            return eRes(`not_prepaid`);
+
+        const res = await payTxs(payChain, payId);
+        return res?.success ? fullRes(res, res?.data)
+            : eRes();
     },
     /** Payment Validation */
     payPortfolioValid = async (
         payingWallet: EVMAddress
-    ) => {
+    ): ResultPromise<string> => {
         const
             data = getConfig(),
             payChain = data?.payChain,
             payId = data?.payId;
-        if (!payChain || !payId) return
-        const validation = await payValidation({
+
+        if (!payChain || !payId)
+            return eRes(`not_prepaid`);
+
+        const res = await payValidation({
             chain: payChain,
             productId: payId,
             walletAddress: payingWallet,
         });
-        return validation?.success ? validation?.data
-            : undefined
+        return res?.success ? fullRes(res, res?.data)
+            : eRes();
     },
 
     /**
@@ -41,21 +49,24 @@ const
         payingWallet: string,
         /** Portfolio Id */
         portId: string
-    ) => {
+    ): ResultPromise<number> => {
         const endPoint = `portfolios/pay`;
         try {
-            const data = invalidStr([portId, payingWallet]) ? undefined
-                : await requestFun(
-                    endPoint,
-                    {
-                        portId,
-                        payingWallet
-                    }
-                );
-            return data
+
+            if (invalidStr([portId, payingWallet]))
+                return eRes(`invalid_inputs`);
+
+            const res = await requestFun(
+                endPoint,
+                {
+                    portId,
+                    payingWallet
+                }
+            );
+            return fullRes(res, res?.paid);
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return eRes();
         };
     };
 

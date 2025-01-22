@@ -3,6 +3,7 @@ import {
     logErr,
     requestFun,
 } from "./config";
+import { eRes, fullRes } from "./response";
 import {
     PortfolioExchAPI,
     PortSettings,
@@ -11,9 +12,8 @@ import {
     PortSettingsAllString,
     PortfolioUpdate,
     PortfolioExchAPIReturn,
-    PortfolioExchAPIError,
-    PortfolioTradesError,
     PortfolioId,
+    ResultPromise,
 } from "./types";
 
 const
@@ -24,28 +24,30 @@ const
      * or pass a single portfolio portfolio Id portId for specific data
      * @returns empty object when no portfolios
      * */
-    portfolioSettings = async (
+    portfolioData = async (
         /** Portfolio Id (optional) */
         portId?: string
-    ): Promise<PortSettingsAll> => {
+    ): ResultPromise<PortSettingsAll> => {
         const endPoint = `portfolios/all`;
         try {
             const
-                data: { users: PortSettingsAllString } =
-                    await requestFun(
-                        endPoint,
-                        invalidStr([portId]) ? undefined
-                            : { portId }
-                    ),
-                usersRaw = data?.users,
-                users: PortSettingsAll = {};
-            if (!usersRaw) return {}
+                res = await requestFun(
+                    endPoint,
+                    invalidStr([portId]) ? undefined
+                        : { portId }
+                ),
+                usersRaw: PortSettingsAllString = res?.users;
+
+            if (!usersRaw)
+                return eRes(res?.e);
+
+            const data: PortSettingsAll = {};
             for (const portId in usersRaw)
-                users[portId] = JSON.parse(usersRaw[portId])
-            return users
+                data[portId] = JSON.parse(usersRaw[portId])
+            return fullRes(res, data);
         } catch (e) {
             logErr(e, endPoint);
-            return {}
+            return eRes();
         };
     },
 
@@ -58,23 +60,18 @@ const
     portfolioTrades = async (
         /** Portfolio Id (optional) */
         portId?: string
-    ): Promise<
-        ExchDataAll
-        | PortfolioTradesError
-        | undefined> => {
+    ): ResultPromise<ExchDataAll> => {
         const endPoint = `portfolios/trades`;
         try {
-            const
-                data = await requestFun(
-                    endPoint,
-                    invalidStr([portId]) ? undefined
-                        : { portId }
-                ),
-                exchangesData: ExchDataAll = data?.exchanges;
-            return exchangesData || data
+            const res = await requestFun(
+                endPoint,
+                invalidStr([portId]) ? undefined
+                    : { portId }
+            );
+            return fullRes(res, res?.exchanges)
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return eRes();
         };
     },
 
@@ -84,25 +81,23 @@ const
      * @returns new portfolio id string
      * */
     portfolioNew = async (
-        /** User wallet address (for payment validation) */
-        payingWallet: string,
         /** Portfolio Settings (optional) */
         portSettings?: PortSettings
-    ): Promise<PortfolioId | undefined> => {
+    ): ResultPromise<string> => {
         const endPoint = `portfolios/add`;
         try {
             const
                 settings = !portSettings ? undefined
                     : JSON.stringify(portSettings),
-                data: PortfolioId | undefined = await requestFun(
+                res: PortfolioId = await requestFun(
                     endPoint,
                     invalidStr([settings]) ? undefined
-                        : { settings, payingWallet }
+                        : { settings }
                 );
-            return data
+            return fullRes(res, res?.portId);
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return eRes();
         };
     },
 
@@ -114,25 +109,27 @@ const
     portfolioUpdate = async ({
         portId,
         portSettings,
-    }: PortfolioUpdate): Promise<PortfolioId | undefined> => {
+    }: PortfolioUpdate): ResultPromise<string> => {
         const endPoint = `portfolios/update`;
         try {
-            const
-                settings = !portSettings ? undefined
-                    : JSON.stringify(portSettings),
-                data: PortfolioId | undefined =
-                    invalidStr([portId, settings]) ? undefined
-                        : await requestFun(
-                            endPoint,
-                            {
-                                portId,
-                                settings
-                            }
-                        );
-            return data
+
+            const settings = !portSettings ? undefined
+                : JSON.stringify(portSettings);
+
+            if (invalidStr([portId, settings]))
+                return eRes(`invalid_inputs`);
+
+            const res: PortfolioId = await requestFun(
+                endPoint,
+                {
+                    portId,
+                    settings
+                }
+            );
+            return fullRes(res, res?.portId)
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return eRes();
         };
     },
 
@@ -146,35 +143,35 @@ const
         exchId,
         key1,
         key2,
-    }: PortfolioExchAPI): Promise<
-        PortfolioExchAPIReturn
-        | PortfolioExchAPIError
-        | undefined
-    > => {
+    }: PortfolioExchAPI): ResultPromise<PortfolioExchAPIReturn> => {
         const endPoint = `portfolios/api`;
         try {
 
             if (invalidStr([key1, key2]))
-                return { e: `api_invalid` }
+                return eRes(`api_invalid`);
+
+            if (invalidStr([portId, exchId]))
+                return eRes(`invalid_inputs`);
 
             const
-                data:
-                    PortfolioExchAPIReturn
-                    | PortfolioExchAPIError
-                    | undefined = invalidStr([portId, exchId]) ? undefined
-                        : await requestFun(
-                            endPoint,
-                            {
-                                portId,
-                                exchId,
-                                k1: key1,
-                                k2: key2
-                            }
-                        );
-            return data
+                res: PortfolioExchAPIReturn =
+                    await requestFun(
+                        endPoint,
+                        {
+                            portId,
+                            exchId,
+                            k1: key1,
+                            k2: key2
+                        }
+                    ),
+                data: PortfolioExchAPIReturn = {
+                    portId: res?.portId,
+                    holdings: res?.holdings
+                };
+            return fullRes(res, data);
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return eRes();
         };
     },
 
@@ -186,24 +183,23 @@ const
     portfolioDelete = async (
         /** Portfolio Id */
         portId: string,
-    ): Promise<PortfolioId | undefined> => {
+    ): ResultPromise<string> => {
         const endPoint = `portfolios/delete`;
         try {
-            const
-                data: PortfolioId | undefined = invalidStr([portId]) ? undefined
-                    : await requestFun(
-                        endPoint,
-                        { portId }
-                    );
-            return data
+            const res: PortfolioId = invalidStr([portId]) ? undefined
+                : await requestFun(
+                    endPoint,
+                    { portId }
+                );
+            return fullRes(res, res?.portId);
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return eRes();
         };
     };
 
 export {
-    portfolioSettings,
+    portfolioData,
     portfolioTrades,
     portfolioNew,
     portfolioUpdate,

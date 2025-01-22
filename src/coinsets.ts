@@ -3,6 +3,7 @@ import {
     invalidStr,
     logErr,
 } from "./config";
+import { eRes, fullRes } from "./response";
 import {
     CoinsetDelete,
     CoinsetsData,
@@ -10,7 +11,7 @@ import {
     CoinsetNew,
     ExchIds,
     CoinsetId,
-    CoinsetError,
+    ResultPromise,
 } from "./types";
 
 const
@@ -22,19 +23,18 @@ const
     coinSetsAll = async (
         /** exchange Id */
         exchId?: ExchIds
-    ): Promise<CoinsetsData | undefined> => {
+    ): ResultPromise<CoinsetsData> => {
         const endPoint = `coinsets/all`;
         try {
-            const
-                data: CoinsetsData = await requestFun(
-                    endPoint,
-                    invalidStr([exchId]) ?
-                        undefined : { exchId }
-                );
-            return data
+            const res = await requestFun(
+                endPoint,
+                invalidStr([exchId]) ?
+                    undefined : { exchId }
+            );
+            return fullRes(res, res?.coinSets);
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return eRes();
         };
     },
 
@@ -45,21 +45,20 @@ const
     coinSetsOptions = async (
         /** exchange Id */
         exchId: ExchIds
-    ): Promise<string[]> => {
+    ): ResultPromise<string[]> => {
         const endPoint = `coinsets/options`;
         try {
-            const
-                data: {
-                    options: string[],
-                } = invalidStr([exchId]) ? undefined
-                        : await requestFun(
-                            endPoint,
-                            { exchId }
-                        );
-            return data?.options || []
+            if (invalidStr([exchId]))
+                return eRes(`invalid_inputs`);
+
+            const res = await requestFun(
+                endPoint,
+                { exchId }
+            );
+            return fullRes(res, res?.options || []);
         } catch (e) {
             logErr(e, endPoint);
-            return []
+            return eRes();
         };
     },
 
@@ -70,29 +69,28 @@ const
     coinSetsNew = async ({
         exchId,
         coinSet,
-    }: CoinsetNew): Promise<
-        CoinsetId
-        | CoinsetError
-        | undefined
-    > => {
+    }: CoinsetNew): ResultPromise<string> => {
         const endPoint = `coinsets/add`;
         try {
 
             if (coinSet?.length < 2)
-                return { e: `symbols_insufficient` };
+                return eRes(`symbols_insufficient`);
 
-            const
-                data: CoinsetId =
-                    invalidStr([exchId?.toString()]
-                        ?.concat(coinSet)) ? undefined
-                        : await requestFun(
-                            endPoint,
-                            { exchId, coinSet }
-                        );
-            return data
+            if (invalidStr(
+                [exchId?.toString()]
+                    ?.concat(coinSet)
+            )) {
+                return eRes(`invalid_inputs`);
+            };
+
+            const res = await requestFun(
+                endPoint,
+                { exchId, coinSet }
+            );
+            return fullRes(res, res?.coinSetId);
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return eRes();
         };
     },
 
@@ -104,29 +102,28 @@ const
         exchId,
         coinSetId,
         coinSet,
-    }: CoinsetUpdate): Promise<
-        CoinsetId
-        | CoinsetError
-        | undefined
-    > => {
+    }: CoinsetUpdate): ResultPromise<string> => {
         const endPoint = `coinsets/update`;
         try {
 
             if (coinSet?.length < 2)
-                return { e: `symbols_insufficient` };
+                return eRes(`symbols_insufficient`);
 
-            const
-                data: CoinsetId =
-                    invalidStr([coinSetId, exchId?.toString()]
-                        ?.concat(coinSet)) ? undefined
-                        : await requestFun(
-                            endPoint,
-                            { coinSetId, exchId, coinSet }
-                        );
-            return data
+            if (invalidStr(
+                [coinSetId, exchId?.toString()]
+                    ?.concat(coinSet)
+            )) {
+                return eRes(`invalid_inputs`);
+            };
+
+            const res: CoinsetId = await requestFun(
+                endPoint,
+                { coinSetId, exchId, coinSet }
+            );
+            return fullRes(res, res?.coinSetId);
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return eRes();
         };
     },
 
@@ -137,25 +134,21 @@ const
     coinSetsDelete = async ({
         exchId,
         coinSetId,
-    }: CoinsetDelete): Promise<
-        CoinsetId
-        | undefined
-    > => {
+    }: CoinsetDelete): ResultPromise<string> => {
         const endPoint = `coinsets/delete`;
         try {
 
-            const
-                data: CoinsetId =
-                    invalidStr([coinSetId, exchId?.toString()])
-                        ? undefined
-                        : await requestFun(
-                            endPoint,
-                            { exchId, coinSetId }
-                        );
-            return data
+            if (invalidStr([coinSetId, exchId?.toString()]))
+                return eRes(`invalid_inputs`);
+
+            const res: CoinsetId = await requestFun(
+                endPoint,
+                { exchId, coinSetId }
+            );
+            return fullRes(res, res?.coinSetId);
         } catch (e) {
             logErr(e, endPoint);
-            return
+            return eRes();
         };
     };
 
