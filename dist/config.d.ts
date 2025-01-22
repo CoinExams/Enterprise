@@ -1,4 +1,4 @@
-import { APISpecs, ConfigSDK } from './types';
+import { APISpecs, ClientPayments, ConfigSDK, ResultPromise } from './types';
 import { ChainIds } from 'merchantslate';
 declare const 
 /** Get SDK configuration */
@@ -18,5 +18,7 @@ logErr: (e: any, endPoint?: string) => void,
 /** Main Request Function */
 requestFun: (endPoint: string, reqParm?: any) => Promise<any>, 
 /** API data */
-getApiData: () => Promise<APISpecs | undefined>;
-export { getConfig, config, logErr, invalidStr, requestFun, getApiData, };
+accountInfo: () => ResultPromise<APISpecs>, 
+/** API payments list */
+accountPayments: () => ResultPromise<ClientPayments[]>;
+export { getConfig, config, logErr, invalidStr, requestFun, accountInfo, accountPayments, };

@@ -1,4 +1,35 @@
 import { ChainIds } from "merchantslate";
+interface ErrorCodes {
+    unknown: string;
+    exchange_id_invalid: string;
+    exchange_no_options: string;
+    symbols_insufficient: string;
+    symbol_invalid: string;
+    invalid_coinset_id: string;
+    not_prepaid: string;
+    invalid_inputs: string;
+    duplicate_payment: string;
+    invalid_payment: string;
+    no_trades: string;
+    access_expired: string;
+    api_invalid: string;
+    api_renew: string;
+    max_port_reached: string;
+    port_delete_failed: string;
+    last_port_error: string;
+}
+type ErrorCodeString = keyof ErrorCodes;
+interface ErrorResponse {
+    success: false;
+    e: ErrorCodeString;
+    errorMsg: string;
+}
+interface SuccessResponse<T> {
+    success: true;
+    data: T;
+}
+type Result<T> = SuccessResponse<T> | ErrorResponse;
+type ResultPromise<T> = Promise<Result<T>>;
 /** SDK configuration */
 interface ConfigSDK {
     /** API Key */
@@ -46,6 +77,12 @@ interface APISpecs extends APIInfo {
     clientName: string;
     /** API hmac EN */
     hmacEN: string;
+}
+/** client payments */
+interface ClientPayments {
+    amount: number;
+    coin: string;
+    time: number;
 }
 /** Exchanges Ids */
 type ExchIds = `bin`;
@@ -98,10 +135,6 @@ interface PortfolioId {
     /** Portfolio Id String */
     portId: string;
 }
-/** Portfolio Trades Error */
-interface PortfolioTradesError {
-    e: `no_trades` | `access_expired`;
-}
 /** Portfolio Update */
 interface PortfolioUpdate {
     /** Portfolio Id */
@@ -135,10 +168,6 @@ interface PortfolioExchAPIReturn {
     /** holdings on exchange */
     holdings: ExchangeHoldings;
 }
-/** Portfolio Exchange API Error */
-interface PortfolioExchAPIError {
-    e: `api_renew` | `api_invalid`;
-}
 /** New Coinset */
 interface CoinsetNew {
     /** exchange Id */
@@ -162,11 +191,12 @@ interface CoinsetUpdate {
     /** example [`BTC`,`ETH`], minimum two symbols */
     coinSet: string[];
 }
+interface CoinsetObj {
+    [coinSetId: string]: string[];
+}
 /** Coinsets Data */
 interface CoinsetsData {
-    [exchId: string]: {
-        [coinSetId: string]: string[];
-    };
+    [exchId: string]: CoinsetObj;
 }
 /** Coinset Id return */
 interface CoinsetId {
@@ -174,7 +204,5 @@ interface CoinsetId {
     coinSetId: string;
 }
 /** Coinset Error */
-interface CoinsetError {
-    e: `symbols_insufficient` | `BTC symbol_invalid`;
-}
-export { ConfigSDK, APISpecs, ExchIds, ExchData, ExchDataAll, ExchangeHoldings, PortSettings, PortfolioId, PortfolioTradesError, PortfolioUpdate, PortSettingsAll, PortSettingsAllString, PortfolioExchAPI, PortfolioExchAPIReturn, PortfolioExchAPIError, CoinsetNew, CoinsetDelete, CoinsetUpdate, CoinsetsData, CoinsetId, CoinsetError, };
+type CoinsetError<sy extends string> = `${sy} symbol_invalid`;
+export { ErrorCodes, ErrorCodeString, ErrorResponse, SuccessResponse, ResultPromise, ConfigSDK, APISpecs, ClientPayments, ExchIds, ExchData, ExchDataAll, ExchangeHoldings, PortSettings, PortfolioId, PortfolioUpdate, PortSettingsAll, PortSettingsAllString, PortfolioExchAPI, PortfolioExchAPIReturn, CoinsetNew, CoinsetDelete, CoinsetUpdate, CoinsetObj, CoinsetsData, CoinsetId, CoinsetError, };

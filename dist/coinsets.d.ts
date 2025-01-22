@@ -1,28 +1,28 @@
-import { CoinsetDelete, CoinsetsData, CoinsetUpdate, CoinsetNew, ExchIds, CoinsetId, CoinsetError } from "./types";
+import { CoinsetDelete, CoinsetsData, CoinsetUpdate, CoinsetNew, ExchIds, ResultPromise } from "./types";
 declare const 
 /**
  * Coin Sets :
  * All coin sets created
  * */
-coinSetsAll: (exchId?: ExchIds) => Promise<CoinsetsData | undefined>, 
+coinSetsAll: (exchId?: ExchIds) => ResultPromise<CoinsetsData>, 
 /**
  * Coin Sets Options :
  * Get a list of all possible token symbols
  * */
-coinSetsOptions: (exchId: ExchIds) => Promise<string[]>, 
+coinSetsOptions: (exchId: ExchIds) => ResultPromise<string[]>, 
 /**
  * Coin Sets New :
  * Create a new coin set and get coin set ID
  * */
-coinSetsNew: ({ exchId, coinSet, }: CoinsetNew) => Promise<CoinsetId | CoinsetError | undefined>, 
+coinSetsNew: ({ exchId, coinSet, }: CoinsetNew) => ResultPromise<string>, 
 /**
  * Coin Sets Update :
  * Update an existing coin set using coin set ID
  * */
-coinSetsUpdate: ({ exchId, coinSetId, coinSet, }: CoinsetUpdate) => Promise<CoinsetId | CoinsetError | undefined>, 
+coinSetsUpdate: ({ exchId, coinSetId, coinSet, }: CoinsetUpdate) => ResultPromise<string>, 
 /**
 * Coin Sets Delete :
 * Delete an existing coin set using coin set ID
 * */
-coinSetsDelete: ({ exchId, coinSetId, }: CoinsetDelete) => Promise<CoinsetId | undefined>;
+coinSetsDelete: ({ exchId, coinSetId, }: CoinsetDelete) => ResultPromise<string>;
 export { coinSetsAll, coinSetsOptions, coinSetsNew, coinSetsUpdate, coinSetsDelete, };
