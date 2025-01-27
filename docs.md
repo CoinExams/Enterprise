@@ -94,6 +94,31 @@ interface exchData {
 }
 ```
 
+### Payment Required EVM Transactions
+```
+interface PayTxsData {
+	/** Payment Chain Id */
+	chainId: string;
+	/** Payment Token */
+    token: {
+		address: string;
+		name: string;
+		symbol: string;
+		decimals: number;
+	};
+	/** Payment Amount */
+    amount: string;
+	/** Payment Required Transactions 
+	* (Approval + Transfer)
+	*/
+    txs: {
+		to: string;
+		data: string;
+		value?: string;
+	}[];
+}
+```
+
 ## Endpoints
 Manage all portfolios created using API in your managing account
 
@@ -166,6 +191,38 @@ body: {
 response: {
 	/** Portfolio Id String */
 	portId: string,
+}
+```
+
+### Portfolio Pay Transactions
+Portfolio subscription payment required transaction data
+
+endPoint `portfolios/paytxs`
+```
+body: {
+	/** Quantity (1 == One Month Validity) */
+	quantity?: string
+}
+
+response: {
+	/** Payment Required Transactions */
+	txs: PayTxsData,
+}
+```
+
+### Portfolio Pay
+Pay portfolio subscription and extend validity
+
+endPoint `portfolios/pay`
+```
+body: {
+	/** Paying Wallet */
+	payingWallet: string,
+}
+
+response: {
+	/** Portfolio Validity Period (Expiry Date in ms) */
+	paid: number,
 }
 ```
 
