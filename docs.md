@@ -1,6 +1,9 @@
 
 ## CoinExams SDK - Raw Setup
 
+### Change Log
+[5 April 2025 - ExchIds type updated](changes.md#5-april-2025)
+
 ### Base URL
 ```
 const baseURL = `https://api.coinexams.com/v1/`;
@@ -50,7 +53,7 @@ const
 ## Data Types
 ### Exchange Ids
 ```
-type exchIds = `bin`
+type exchIds = `binance`
 ```
 ### Portfolio Settings
 ```

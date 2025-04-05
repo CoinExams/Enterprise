@@ -85,7 +85,7 @@ interface ClientPayments {
     time: number;
 }
 /** Exchanges Ids */
-type ExchIds = `bin`;
+type ExchIds = `binance`;
 /** Exchange user data */
 interface ExchData {
     /** holdings on exchange */
