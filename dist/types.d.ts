@@ -1,4 +1,12 @@
-import { ChainIds } from "merchantslate";
+import { ChainIds, MerchantConfigParams } from "merchantslate";
+interface CEConfig extends MerchantConfigParams {
+    apiKey?: string;
+    hmacKey?: string;
+    payId?: string;
+    payChain?: ChainIds;
+    payRPC?: string;
+    consoleLogEnabled?: boolean;
+}
 interface ErrorCodes {
     unknown: string;
     exchange_id_invalid: string;
@@ -31,7 +39,7 @@ interface SuccessResponse<T> {
 type Result<T> = SuccessResponse<T> | ErrorResponse;
 type ResultPromise<T> = Promise<Result<T>>;
 /** SDK configuration */
-interface ConfigSDK {
+interface ConfigSDK extends MerchantConfigParams {
     /** API Key */
     apiKey: string;
     /** HMAC key */
@@ -205,4 +213,4 @@ interface CoinsetId {
 }
 /** Coinset Error */
 type CoinsetError<sy extends string> = `${sy} symbol_invalid`;
-export { ErrorCodes, ErrorCodeString, ErrorResponse, SuccessResponse, ResultPromise, ConfigSDK, APISpecs, ClientPayments, ExchIds, ExchData, ExchDataAll, ExchangeHoldings, PortSettings, PortfolioId, PortfolioUpdate, PortSettingsAll, PortSettingsAllString, PortfolioExchAPI, PortfolioExchAPIReturn, CoinsetNew, CoinsetDelete, CoinsetUpdate, CoinsetObj, CoinsetsData, CoinsetId, CoinsetError, };
+export { CEConfig, ErrorCodes, ErrorCodeString, ErrorResponse, SuccessResponse, ResultPromise, ConfigSDK, APISpecs, ClientPayments, ExchIds, ExchData, ExchDataAll, ExchangeHoldings, PortSettings, PortfolioId, PortfolioUpdate, PortSettingsAll, PortSettingsAllString, PortfolioExchAPI, PortfolioExchAPIReturn, CoinsetNew, CoinsetDelete, CoinsetUpdate, CoinsetObj, CoinsetsData, CoinsetId, CoinsetError, };

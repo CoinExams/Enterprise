@@ -10,11 +10,15 @@ Install using `yarn add coinexams` or `npm install coinexams`
 
 OR use in browsers through CDN
 
-`<script src="https://cdn.jsdelivr.net/npm/coinexams@1.0.8/dist/coinexams.min.js"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/coinexams@1.0.9/dist/coinexams.min.js"></script>`
 
 ## CoinExams API keys
 Start by add api keys using `config({ apiKey, hmacKey })`
 Validate current configuration using `getConfig()`
+
+## Debug
+In order to disable console log messages you can update config as follows
+`config({ consoleLogEnabled: false })`
 
 ## Portfolios
 ### Portfolios Data
@@ -48,6 +52,17 @@ For `api_renew` user has to check exchange for expired API access
 ### Portfolio Delete
 Delete an existing portfolio using portfolio ID `portfolioDelete(portId)`
 Returns `portId` as confirmation
+
+### Portfolio Pay
+Update your payment configuration
+```
+config({
+    payId, // Your Pay Id number as string
+    payChain, // Your Pay Chain, e.g. `BSC`
+    payRPC, // Your preferred RPC for your pay chain
+})
+```
+Validate current configuration using `getConfig()`
 
 ## Coinsets
 ### Coinsets All

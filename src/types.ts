@@ -1,4 +1,13 @@
-import { ChainIds } from "merchantslate";
+import { ChainIds, MerchantConfigParams } from "merchantslate";
+
+interface CEConfig extends MerchantConfigParams {
+    apiKey?: string,
+    hmacKey?: string,
+    payId?: string,
+    payChain?: ChainIds,
+    payRPC?: string,
+    consoleLogEnabled?: boolean
+}
 
 interface ErrorCodes {
     unknown: string,
@@ -35,7 +44,7 @@ type Result<T> = SuccessResponse<T> | ErrorResponse;
 type ResultPromise<T> = Promise<Result<T>>;
 
 /** SDK configuration */
-interface ConfigSDK {
+interface ConfigSDK extends MerchantConfigParams {
     /** API Key */
     apiKey: string,
     /** HMAC key */
@@ -235,6 +244,7 @@ type CoinsetError<sy extends string> = `${sy} symbol_invalid`;
 
 export {
     // configuration
+    CEConfig,
     ErrorCodes,
     ErrorCodeString,
     ErrorResponse,

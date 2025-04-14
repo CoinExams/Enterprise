@@ -1,6 +1,9 @@
 import { createHmac } from 'crypto';
-import { APISpecs, ClientPayments, ConfigSDK, ResultPromise } from './types';
-import { ChainIds } from 'merchantslate';
+import { APISpecs, CEConfig, ClientPayments, ConfigSDK, ResultPromise } from './types';
+import {
+    getConfig as getMerchantConfig,
+    config as merchantConfig,
+} from 'merchantslate';
 import { fullRes } from './response';
 
 const
@@ -11,8 +14,11 @@ const
         consoleLogEnabled: true,
     },
     /** Get SDK configuration */
-    getConfig = () => {
-        return configuration
+    getConfig = (): ConfigSDK => {
+        return {
+            ...configuration,
+            ...getMerchantConfig(),
+        }
     },
     /** Configure SDK */
     config = async ({
@@ -20,18 +26,26 @@ const
         hmacKey,
         payId,
         payChain,
+        payRPC,
         consoleLogEnabled,
-    }: {
-        apiKey?: string,
-        hmacKey?: string,
-        payId?: string,
-        payChain?: ChainIds,
-        consoleLogEnabled?: boolean
-    }) => {
+    }: CEConfig) => {
         if (apiKey) configuration.apiKey = apiKey;
         if (hmacKey) configuration.hmacKey = hmacKey;
         if (payId) configuration.payId = payId;
-        if (payChain) configuration.payChain = payChain;
+        if (payChain) {
+            configuration.payChain = payChain;
+            if (payRPC) merchantConfig({
+                ...payChain == `APT` ? { APT_RPC: payRPC } : {},
+                ...payChain == `ARBITRUM` ? { ARBITRUM_RPC: payRPC } : {},
+                ...payChain == `AVALANCHE` ? { AVALANCHE_RPC: payRPC } : {},
+                ...payChain == `BSC` ? { BSC_RPC: payRPC } : {},
+                ...payChain == `CELO` ? { CELO_RPC: payRPC } : {},
+                ...payChain == `ETH` ? { ETH_RPC: payRPC } : {},
+                ...payChain == `FANTOM` ? { FANTOM_RPC: payRPC } : {},
+                ...payChain == `OPTIMISM` ? { OPTIMISM_RPC: payRPC } : {},
+                ...payChain == `POLYGON` ? { POLYGON_RPC: payRPC } : {},
+            });
+        };
         if (consoleLogEnabled != undefined)
             configuration.consoleLogEnabled = consoleLogEnabled;
         if (apiKey || hmacKey) await accountInfo();

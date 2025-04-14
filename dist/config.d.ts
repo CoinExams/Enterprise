@@ -1,16 +1,9 @@
-import { APISpecs, ClientPayments, ConfigSDK, ResultPromise } from './types';
-import { ChainIds } from 'merchantslate';
+import { APISpecs, CEConfig, ClientPayments, ConfigSDK, ResultPromise } from './types';
 declare const 
 /** Get SDK configuration */
 getConfig: () => ConfigSDK, 
 /** Configure SDK */
-config: ({ apiKey, hmacKey, payId, payChain, consoleLogEnabled, }: {
-    apiKey?: string;
-    hmacKey?: string;
-    payId?: string;
-    payChain?: ChainIds;
-    consoleLogEnabled?: boolean;
-}) => Promise<void>, 
+config: ({ apiKey, hmacKey, payId, payChain, payRPC, consoleLogEnabled, }: CEConfig) => Promise<void>, 
 /** Invalid Strings Check */
 invalidStr: (params: (string | undefined)[]) => boolean, 
 /** Log Function Error */
