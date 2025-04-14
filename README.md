@@ -53,16 +53,34 @@ For `api_renew` user has to check exchange for expired API access
 Delete an existing portfolio using portfolio ID `portfolioDelete(portId)`
 Returns `portId` as confirmation
 
-### Portfolio Pay
-Update your payment configuration
+### Portfolio Pay Txs
+Get payment transactions
 ```
 config({
     payId, // Your Pay Id number as string
     payChain, // Your Pay Chain, e.g. `BSC`
     payRPC, // Your preferred RPC for your pay chain
 })
+
+const 
+    res = await payPortfolio(),
+    payTx = res?.success ? res?.data?.txs : [];
 ```
-Validate current configuration using `getConfig()`
+
+### Portfolio Payment
+Optional: After user signs and sends payTxs, validate payment using user wallet address
+```
+const 
+    res = await payPortfolioValid(userWallet),
+    paymentId: string = res?.success ? res?.data : ``;
+```
+
+After payment is done you can mark payment as done
+```
+const 
+    res = await payDone(userWallet, portId),
+    paidDuration: number = res?.success ? res?.data : ``;
+```
 
 ## Coinsets
 ### Coinsets All
