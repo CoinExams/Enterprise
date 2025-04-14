@@ -60,7 +60,7 @@ config({
     payId, // Your Pay Id number as string
     payChain, // Your Pay Chain, e.g. `BSC`
     payRPC, // Your preferred RPC for your pay chain
-})
+});
 
 const 
     res = await payPortfolio(),
@@ -77,6 +77,8 @@ const
 
 After payment is done you can mark payment as done
 ```
+config({ apiKey, hmacKey }); // required if not previously set
+
 const 
     res = await payDone(userWallet, portId),
     paidDuration: number = res?.success ? res?.data : ``;
