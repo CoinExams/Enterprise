@@ -2,8 +2,8 @@
 ## CoinExams SDK - Raw Setup
 
 ### Change Log
-[15 April 2025 - ExchData interface updated](changes.md#15-april-2025)
-[5 April 2025 - ExchIds type updated](changes.md#5-april-2025)
+* [15 April 2025 - ExchData interface updated](changes.md#15-april-2025)
+* [5 April 2025 - ExchIds type updated](changes.md#5-april-2025)
 
 ### Base URL
 ```
