@@ -10,7 +10,7 @@ Install using `yarn add coinexams` or `npm install coinexams`
 
 OR use in browsers through CDN
 
-`<script src="https://cdn.jsdelivr.net/npm/coinexams@1.0.9/dist/coinexams.min.js"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/coinexams@1.1.0/dist/coinexams.min.js"></script>`
 
 ## CoinExams API keys
 Start by add api keys using `config({ apiKey, hmacKey })`

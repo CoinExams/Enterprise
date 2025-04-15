@@ -79,12 +79,19 @@ interface portSettings {
 ```
 ### Exchange Data
 ```
-interface exchData {
-	/** holdings on exchange */
-	holdings: { [sy: string]: number },
-
-	/** positive numbers for buy, negative for sell */
-	trades?: { [sy: string]: number },
+interface ExchData {
+    /** holdings on exchanges */
+    holdings: {
+        [exchId: string]: {
+            [sy: string]: number,
+        },
+    },
+    /** positive numbers for buy, negative for sell */
+    trades?: {
+        [exchId: string]: {
+            [sy: string]: number,
+        },
+    },
 
 	/** Time traded last ms */
 	lastTraded?: number,
@@ -154,7 +161,7 @@ body: {
 
 response: {
 	exchanges: {
-		[portId: string]: exchData
+		[portId: string]: ExchData
 	}
 }
 

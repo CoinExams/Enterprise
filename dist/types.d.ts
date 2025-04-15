@@ -98,11 +98,15 @@ type ExchIds = `binance`;
 interface ExchData {
     /** holdings on exchange */
     holdings: {
-        [sy: string]: number;
+        [exchId: string]: {
+            [sy: string]: number;
+        };
     };
     /** positive numbers for buy, negative for sell */
     trades?: {
-        [sy: string]: number;
+        [exchId: string]: {
+            [sy: string]: number;
+        };
     };
     /** Time traded last ms */
     lastTraded?: number;
