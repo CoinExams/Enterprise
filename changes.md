@@ -4,7 +4,7 @@
 ### 15 April 2025 
 `ExchData` updated to carry data for all exchanges related to a given portfolio
 
-* `holdings` now has object of exchanges Ids and their holdings
+* `holdings` now has object of exchanges Ids and their holdings or errors
 * `trades` now has object of exchanges Ids and respective trades
 
 ### 5 April 2025

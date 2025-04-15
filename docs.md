@@ -2,6 +2,7 @@
 ## CoinExams SDK - Raw Setup
 
 ### Change Log
+[15 April 2025 - ExchData interface updated](changes.md#15-april-2025)
 [5 April 2025 - ExchIds type updated](changes.md#5-april-2025)
 
 ### Base URL
@@ -82,7 +83,7 @@ interface portSettings {
 interface ExchData {
     /** holdings on exchanges */
     holdings: {
-        [exchId: string]: {
+        [exchId: string]: `api_renew` | `api_invalid` | {
             [sy: string]: number,
         },
     },

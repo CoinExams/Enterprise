@@ -98,7 +98,7 @@ type ExchIds = `binance`;
 interface ExchData {
     /** holdings on exchange */
     holdings: {
-        [exchId: string]: {
+        [exchId: string]: `api_renew` | `api_invalid` | {
             [sy: string]: number;
         };
     };
