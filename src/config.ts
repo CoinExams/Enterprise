@@ -46,8 +46,10 @@ const
                 ...payChain == `POLYGON` ? { POLYGON_RPC: payRPC } : {},
             });
         };
-        if (consoleLogEnabled != undefined)
+        if (consoleLogEnabled != undefined) {
             configuration.consoleLogEnabled = consoleLogEnabled;
+            merchantConfig({ consoleLogEnabled });
+        };
         if (apiKey || hmacKey) await accountInfo();
     },
     /** CoinExams Base API URL  */
