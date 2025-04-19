@@ -1,17 +1,17 @@
 {
   "name": "coinexams",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "CoinExams Enterprise API SDK gives you access to the Crypto Portfolio Builder and other CoinExams services. Seamless integration with minimal implementation effort.",
-  "main": "dist/coinexams.min.js",
-  "module": "dist/coinexams.min.js",
-  "browser": "dist/coinexams.min.js",
+  "main": "dist/node/coinexams.node.min.js",
+  "module": "dist/node/coinexams.node.min.js",
+  "browser": "dist/browser/coinexams.min.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "webpack"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CoinExams/Enterprise.git"
+    "url": "git+https://github.com/CoinExams/CE_Enterprise.git"
   },
   "keywords": [
     "CoinExams",
@@ -25,9 +25,9 @@
   "author": "CoinExams",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CoinExams/Enterprise/issues"
+    "url": "https://github.com/CoinExams/CE_Enterprise/issues"
   },
-  "homepage": "https://github.com/CoinExams/Enterprise#readme",
+  "homepage": "https://github.com/CoinExams/CE_Enterprise#readme",
   "devDependencies": {
     "@types/node": "^22.10.2",
     "clean-webpack-plugin": "^4.0.0",
@@ -46,8 +46,9 @@
   "dependencies": {
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
-    "merchantslate": "^0.4.0",
+    "merchantslate": "^0.4.9",
     "node-fetch": "^3.3.2",
-    "stream-browserify": "^3.0.0"
+    "stream-browserify": "^3.0.0",
+    "vm-browserify": "^1.1.2"
   }
 }

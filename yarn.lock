@@ -1950,12 +1950,13 @@ memfs@^4.6.0:
     tree-dump "^1.0.1"
     tslib "^2.0.0"
 
-merchantslate@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/merchantslate/-/merchantslate-0.4.0.tgz#f2081d1a3f76a8f0babf7329bb62a571694ad7b1"
-  integrity sha512-B5pl0qCQygo4P3a0EIDFCxzy3lHD+wpvgISHthiwJDno5g0B52qws+MmP72Fp59/0gDwutTnfMRD7C55k1/ZtA==
+merchantslate@^0.4.9:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/merchantslate/-/merchantslate-0.4.9.tgz#f1c2041b8dec2ec1b4ac09f44a9136d871cb2502"
+  integrity sha512-MjVnHANv+eJnNW0qZRsG6U6i1q7WqzeFte/bdk3FGUvlE9fy0YxWvpDMKfUKG2CE/BmBTsdChYOitGcRm1nt1A==
   dependencies:
     ethers "^6.13.4"
+    node-fetch "^3.3.2"
 
 merge-descriptors@1.0.3:
   version "1.0.3"
@@ -2866,6 +2867,11 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
+
+vm-browserify@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
+  integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
 watchpack@^2.4.1:
   version "2.4.2"
