@@ -1,6 +1,12 @@
 
 ## CoinExams Enterprise - Change Log
 
+### 21 April 2025 
+`portSettings` updated to include:
+
+* `keyIds` indicating exchanges with working APIs
+* `paid` indicating paid until time in ms
+
 ### 15 April 2025 
 `ExchData` updated to carry data for all exchanges related to a given portfolio
 
