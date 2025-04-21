@@ -157,8 +157,11 @@ interface PortSettings {
     /** coinset Id */
     coinSetId?: string,
 
-    /** exchange Id */
-    exchId?: ExchIds,
+    /** exchange keyIds */
+    keyIds?: { [exchId: string]: string },
+
+    /** paid */
+    paid?: number,
 };
 
 /** Portfolio ID return */
@@ -202,7 +205,11 @@ interface PortfolioExchAPIReturn {
     /** Portfolio Id */
     portId: string,
     /** holdings on exchange */
-    holdings: ExchangeHoldings
+    holdings: ExchangeHoldings,
+    /** Exchange keys Ids */
+    keyIds: {
+        [exchId: string]: string
+    },
 }
 
 /** New Coinset */

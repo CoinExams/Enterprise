@@ -166,7 +166,8 @@ const
                     ),
                 data: PortfolioExchAPIReturn = {
                     portId: res?.portId,
-                    holdings: res?.holdings
+                    holdings: res?.holdings,
+                    keyIds: res?.keyIds,
                 };
             return fullRes(res, data);
         } catch (e) {

@@ -76,6 +76,12 @@ interface portSettings {
 
 	/** exchange Id */
 	exchId?: exchIds,
+
+	/** exchange keyIds */
+    keyIds?: { [exchId: string]: string },
+
+    /** paid */
+    paid?: number,
 }
 ```
 ### Exchange Data
@@ -261,7 +267,10 @@ response: {
 	portId: string,
 
 	/** holdings on exchange */
-	holdings: { [sy: string]: number }
+	holdings: { [sy: string]: number },
+
+	/** Exchange keys Ids */
+	keyIds: { [exchId: ExchIds]: string },
 }
 
 error: { e: `api_renew` | `api_invalid` }
