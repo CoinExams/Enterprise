@@ -2,6 +2,7 @@
 ## CoinExams SDK - Raw Setup
 
 ### Change Log
+* [25 April 2025 - payPortfolio parameters updated](changes.md#25-april-2025)
 * [21 April 2025 - portSettings interface updated](changes.md#21-april-2025)
 * [15 April 2025 - ExchData interface updated](changes.md#15-april-2025)
 * [5 April 2025 - ExchIds type updated](changes.md#5-april-2025)

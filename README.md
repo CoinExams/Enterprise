@@ -10,7 +10,7 @@ Install using `yarn add coinexams` or `npm install coinexams`
 
 OR use in browsers through CDN
 
-`<script src="https://cdn.jsdelivr.net/npm/coinexams@1.1.6/dist/browser/coinexams.min.js"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/coinexams@1.1.7/dist/browser/coinexams.min.js"></script>`
 
 ## CoinExams API keys
 Start by add api keys using `config({ apiKey, hmacKey })`
@@ -63,7 +63,9 @@ config({
 });
 
 const 
-    res = await payPortfolio(),
+    quantity: string = "1", // Optional for number of monthly subscriptions
+    res = await payPortfolio(quantity),
+    payData = res?.success ? res?.data : {},
     payTx = res?.success ? res?.data?.txs : [];
 ```
 

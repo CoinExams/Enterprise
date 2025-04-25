@@ -3,9 +3,11 @@ import { getConfig, invalidStr, logErr, requestFun } from "./config";
 import { ResultPromise } from "./types";
 import { eRes, fullRes } from "./response";
 
-const
+const 
     /** Payment for Portfolio */
-    payPortfolio = async (): ResultPromise<PayTxsData> => {
+    payPortfolio = async (
+        quantity: string = `1`
+    ): ResultPromise<PayTxsData> => {
         const
             data = getConfig(),
             payChain = data?.payChain,
@@ -14,7 +16,7 @@ const
         if (!payChain || !payId)
             return eRes(`not_prepaid`);
 
-        const res = await payTxs(payChain, payId);
+        const res = await payTxs(payChain, payId, quantity);
         return res?.success ? fullRes(res, res?.data)
             : eRes();
     },

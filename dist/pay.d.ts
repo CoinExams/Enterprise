@@ -2,7 +2,7 @@ import { EVMAddress, PayTxsData } from "merchantslate";
 import { ResultPromise } from "./types";
 declare const 
 /** Payment for Portfolio */
-payPortfolio: () => ResultPromise<PayTxsData>, 
+payPortfolio: (quantity?: string) => ResultPromise<PayTxsData>, 
 /** Payment Validation */
 payPortfolioValid: (payingWallet: EVMAddress) => ResultPromise<string>, 
 /**

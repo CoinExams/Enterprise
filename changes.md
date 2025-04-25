@@ -1,6 +1,11 @@
 
 ## CoinExams Enterprise - Change Log
 
+### 25 April 2025 
+`payPortfolio` updated to allow optional quantity parameter
+
+* `quantity` Optional for number of monthly subscriptions 
+
 ### 21 April 2025 
 `portSettings` updated to include:
 
