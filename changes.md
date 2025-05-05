@@ -1,6 +1,11 @@
 
 ## CoinExams Enterprise - Change Log
 
+### 5 May 2025 
+`payPortfolioValid` updated to return all payment data
+
+* `Payment` interface is returned with `qty` among other payment details
+
 ### 25 April 2025 
 `payPortfolio` updated to allow optional quantity parameter
 

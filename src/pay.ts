@@ -1,4 +1,4 @@
-import { EVMAddress, payValidation, payTxs, PayTxsData } from "merchantslate";
+import { EVMAddress, payValidation, payTxs, PayTxsData, Payment } from "merchantslate";
 import { getConfig, invalidStr, logErr, requestFun } from "./config";
 import { ResultPromise } from "./types";
 import { eRes, fullRes } from "./response";
@@ -23,7 +23,7 @@ const
     /** Payment Validation */
     payPortfolioValid = async (
         payingWallet: EVMAddress
-    ): ResultPromise<string> => {
+    ): ResultPromise<Payment> => {
         const
             data = getConfig(),
             payChain = data?.payChain,

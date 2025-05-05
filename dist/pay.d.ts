@@ -1,10 +1,10 @@
-import { EVMAddress, PayTxsData } from "merchantslate";
+import { EVMAddress, PayTxsData, Payment } from "merchantslate";
 import { ResultPromise } from "./types";
 declare const 
 /** Payment for Portfolio */
 payPortfolio: (quantity?: string) => ResultPromise<PayTxsData>, 
 /** Payment Validation */
-payPortfolioValid: (payingWallet: EVMAddress) => ResultPromise<string>, 
+payPortfolioValid: (payingWallet: EVMAddress) => ResultPromise<Payment>, 
 /**
 * Portfolio payment done :
 * Add time to portfolio
